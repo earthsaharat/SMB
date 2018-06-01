@@ -1,0 +1,31 @@
+{% extends 'auth_base.html' %} 
+{% block content %} 
+{% load static %}
+<br><br><br>
+<div class="uk-container">
+	<div class="uk-card uk-card-default uk-card-body uk-width-1-2@m uk-align-center">
+		<h1 class="thai_font-title ">Login</h1>
+		<form method="post">{% csrf_token %}
+			<div class="form-group ">
+				{{ form.username}}
+				<i class="fa fa-user"></i>
+			</div>
+			<div class="form-group ">
+				{{ form.password}}
+				<i class="fa fa-lock"></i>
+			</div>
+			<button type="submit" class="log-btn">Log in</button>
+		</form>
+		<p style="text-align: center;">I don't have an account. <a href="{% url 'signup' %}" class="thai_font" style="color: #0ac986;" >Sign up</a></p>
+	</div>
+
+	<script type="text/javascript">
+		var divs = document.getElementsByTagName("input");
+		for(var i = 0; i < divs.length; i++){
+			divs[i].classList.add('form-control');;
+		}
+	</script>
+</div>
+<br>
+
+{% endblock %}

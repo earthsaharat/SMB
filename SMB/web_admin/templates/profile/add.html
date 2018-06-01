@@ -1,0 +1,173 @@
+{% extends 'admin_base.html' %}
+{% load staticfiles %}
+{% block content %}
+
+	<script type="text/javascript"> document.getElementById('navi-4').classList.add("nav-active")</script>
+
+	<style type="text/css">
+		a:hover{ text-decoration: none; color: #333 !important;}
+		p{ margin: 0px; }
+		/*i{ color: #36f }
+		i:hover{ color: #333; cursor: pointer; }*/
+		.my-hover-blue:hover{ color: #36f !important; cursor: pointer; }
+		.my-hover-black:hover{ color: #333 !important; cursor: pointer; }
+
+		.text-r{ text-align: right; }
+		.text-c{ text-align: center; }
+		.text-l{ text-align: left; }
+
+		.my-card{
+			background-color: #fff;
+			box-shadow: 0px 5px 15px #ddd;
+		}
+		.my-img{
+			/*width: 80px;*/	
+			width: 100%;	
+			vertical-align: middle;
+			/*height: 100%;
+			object-fit: contain;*/
+		}
+
+		.my-tb{ border-style: none; padding: 0px; }
+		.my-textbox{
+			text-align: left; 
+			color: #999;
+			border-style: none;
+			background-color: transparent;
+			width: 100%;
+		}
+		input:focus { outline:0; }
+		::placeholder { /* Firefox */ color: #ccc; }
+		:-ms-input-placeholder { /* Internet Explorer 10-11 */ color: #ccc; }
+		::-ms-input-placeholder { /* Microsoft Edge */ color: #ccc; }
+
+		.table{
+			border-style: none;
+		}
+		.table-img{
+			width: 80px;	
+		}
+
+		.my-nav-2{ background-color: #fff; }
+
+		.my-text-1{ color: #333; text-align: center; }
+		.my-text-2{ color: #bbb; text-align: center; }
+		.my-text-3{ color: #777; text-align: center; }
+		.my-text-4{ text-align: center; }
+
+		.my-view-mode{ color: #000; }
+
+		.inputfile{
+			display: none;
+		}
+		/*.inputfile + label {
+		    font-size: 1.25em;
+		    font-weight: 700;
+		    color: white;
+		    background-color: black;
+		    display: inline-block;
+		}*/
+		.inputfile:focus + label, .inputfile + label:hover {
+		    color: #36f;
+		}
+		.inputfile + label { cursor: pointer; /* "hand" cursor */ }
+		.inputfileText{ cursor: pointer; }
+
+		.table-responsive{
+			background-color: #fff;
+/*			box-shadow: 0px 5px 15px #ddd;
+*/			padding: 20px;
+		}
+		.my-table-head{ color: #aaa; }
+		.my-table-body{ color: #666; }
+		/* For Phone */
+		/*@media screen and (max-width: 640px) {
+		}*/
+		/* For Phone */
+		@media screen and (min-width: 0px) and (max-width: 980px) {
+			.my-nav-2{ padding: 0px 40px 10px 20px; /* T R B L */ }
+			.my-container{ padding: 20px; }
+			.my-title-text{ font-size: 60px; }
+			.my-textbox{ font-size: 40px; }
+			.my-tb{ font-size: 40px; width: 8vw; height: 40px; }
+
+			.my-card-body{ padding: 60px; }
+			.my-text-1{ font-size: 60px; line-height: 120px; }
+			.my-text-2{ font-size: 40px; line-height: 60px; }
+			.my-text-3{ font-size: 50px; line-height: 70px; }
+			.my-text-4{ font-size: 50px; margin-top: 50px; }
+
+			.my-table-head{ font-size: 30px; line-height: 80px;}
+			.my-table-body{ font-size: 30px; line-height: 40px;}
+			.my-table-button{ letter-spacing: 10px; }
+		}
+		/* For Desktop */
+		@media screen and (min-width: 1024px) {
+			.my-nav-2{ padding: 0px 25px 10px 18px; /* T R B L */ }
+			.my-container{ padding: 20px 60px 60px 60px; }
+			.my-title-text{ font-size: 25px; }
+			.my-textbox{ font-size: 30px; }
+			.my-tb{ font-size: 30px; width: 8vw; height: 30px; }
+
+			.my-card-body{ padding: 20px; }
+			.my-text-1{ font-size: 30px; line-height: 50px; }
+			.my-text-2{ font-size: 16px; }
+			.my-text-3{ font-size: 20px; }
+			.my-text-4{ font-size: 20px; margin-top: 12px; }
+
+			.my-table-head{ font-size: 25px; line-height: 40px;}
+			.my-table-body{ font-size: 20px; line-height: 25px;}
+			.my-table-button{ letter-spacing: 8px; }
+		}
+
+		/*.my-title-text{ color: #333; }
+		.my-title-text:hover{ color: #36f; }*/
+
+    	.my-summit-button:hover{ color: #666; cursor: pointer; }
+
+    	.my-add-button{ color: #36f; }
+    	.my-add-button:hover{ color: #999; cursor: pointer; }
+
+	</style>
+
+
+<form method="post" id="myForm">{% csrf_token %}
+
+<div class="my-nav-2">
+	<div class="row">
+		<div class="col-8">
+			<p  class="my-title-text">
+				<a href="/admin/profile/">
+					<i class="fa fa-chevron-left" style="color: #333;"></i>
+				</a>
+				<span id="name-label">Create New Profile</span>
+			</p>
+		</div>
+	</div>
+</div>
+<div class="my-container">
+	<div class="row my-card" style="margin: 10px;">
+		<div class="col-12" style="padding: 20px;">
+			<input id="Name" type="text" name="name" class="my-textbox" placeholder="Name" autofocus>
+		</div>
+		<div class="col-12" style="padding: 20px;">
+			<p class="my-text-1 my-hover-black" style="color: #36f;" onclick="mySubmit()">Create</p>
+		</div>
+	</div>
+	
+</div>
+</form>
+
+<script type="text/javascript">
+	function mySubmit(){
+		if(document.getElementById('Name').value != "")
+			document.getElementById('myForm').submit()
+	}
+</script>
+
+
+<!-- <p id="h"></p><script type="text/javascript">document.getElementById('h').innerHTML = String(window.innerWidth)+','+String(window.innerHeight)</script>
+ -->
+
+
+{% endblock %}

@@ -1,0 +1,40 @@
+{% extends 'admin_base.html' %}
+{% load staticfiles %}
+{% block content %}
+
+	<script type="text/javascript"> document.getElementById('navi-4').classList.add("nav-active")</script>
+
+	<style type="text/css">
+		a:hover{ text-decoration: none; color: #333 !important;}
+		p{ margin: 0px; }
+
+		.text-r{ text-align: right; }
+		.text-c{ text-align: center; }
+		.text-l{ text-align: left; }
+		/* For Phone */
+		@media screen and (min-width: 0px) and (max-width: 980px) {
+			
+		}
+		/* For Desktop */
+		@media screen and (min-width: 1024px) {
+			
+		}
+
+	</style>
+
+	<style type="text/css">
+		p{
+			text-align: center;
+			color: #d75a4a;
+			margin: 0px;
+		}
+	</style>
+
+
+	<div id="over" style="position:absolute; width:100%; top:33%">
+		<img style="margin: auto; display: block; width: 20vmin; height: 20vmin;" src="{% static 'images/web_admin/error.png' %}">
+		<p style="font-size: 7vmin; line-height: 8vmin; margin-top: 2vmin; font-family: Cloud_Bold;">ERROR</p>
+		<p style="font-size: 3vmin; line-height: 3vmin; margin-top: 0vmin; font-family: Cloud_Bold;">{{error}}</p>
+	</div>
+
+{% endblock %}

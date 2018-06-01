@@ -1,0 +1,155 @@
+{% extends 'admin_base.html' %}
+{% load staticfiles %}
+{% block content %}
+
+	<script type="text/javascript"> document.getElementById('navi-5').classList.add("nav-active")</script>
+
+	<style type="text/css">
+		a:hover{ text-decoration: none; color: #666 !important; cursor: pointer;}
+		p{ margin: 0px; }
+
+		.text-r{ text-align: right; }
+		.text-c{ text-align: center; }
+		.text-l{ text-align: left; }
+
+		.my-card{
+			background-color: #fff;
+			box-shadow: 0px 5px 15px #ddd;
+		}
+		.my-img{
+			/*width: 80px;*/	
+			width: 100%;	
+			vertical-align: middle;
+			/*height: 100%;
+			object-fit: contain;*/
+		}
+
+		.table{
+			border-style: none;
+		}
+		.table-img{
+			width: 80px;	
+		}
+
+		.my-selector{ border-style: none; width: 100%; color: #999; background-color: #fff; }
+		.my-selector:focus{  }
+
+		.my-textbox{ border-style: none; width: 100%; color: #999; padding: 0px;}
+		input:focus { outline:0; }
+		.my-textbox::placeholder { /* Firefox */ color: #ccc; }
+		.my-textbox:-ms-input-placeholder { /* Internet Explorer 10-11 */ color: #ccc; }
+		.my-textbox::-ms-input-placeholder { /* Microsoft Edge */ color: #ccc; }
+
+		.my-nav-2{ background-color: #fff; }
+
+		.my-text{ color: #333; }
+
+		.my-view-mode{ color: #000; }
+		.my-view-mode:hover{ color: #36f; cursor: pointer; }
+
+		.table-responsive{
+			background-color: #fff;
+			box-shadow: 0px 5px 15px #ddd;
+			padding: 20px;
+		}
+		.my-table-head{ color: #aaa; }
+		.my-table-body{ color: #666; }
+		/* For Phone */
+		/*@media screen and (max-width: 640px) {
+		}*/
+		/* For Phone */
+		@media screen and (min-width: 0px) and (max-width: 980px) {
+			.my-nav-2{ padding: 0px 40px 10px 20px; /* T R B L */ }
+			.my-container{ padding: 20px; }
+			.my-title-text{ font-size: 80px; }
+
+			.my-card-body{ padding: 60px; }
+			.my-text{ font-size: 40px; line-height: 50px; }
+
+			.my-textbox,.my-selector{ font-size: 30px; }
+		}
+		/* For Desktop */
+		@media screen and (min-width: 1024px) {
+			.my-nav-2{ padding: 0px 25px 10px 18px; /* T R B L */ }
+			.my-container{ padding: 20px 60px 60px 60px; }
+			.my-title-text{ font-size: 25px; }
+
+			.my-card-body{ padding: 20px; }
+			.my-text{ font-size: 25px; line-height: 30px; }
+
+			.my-textbox,.my-selector{ font-size: 20px; }
+		}
+
+		.col-12{ padding: 20px; }
+		.fa{ color: #333; }
+		.fa:hover,.my-summit-button{ color: #36f; cursor: pointer; }
+		.my-hide{ display: none; }
+	</style>
+
+<form method="post" id="myForm">{% csrf_token %}
+
+<div class="my-nav-2">
+	<div class="row">
+		<div class="col-8"><p class="my-title-text"><a class="my-back" href="/admin/device/"><i class="fa fa-chevron-left"></i></a> <span id="name-label"> Device</span></p></div>
+		<p class="col-4 text-r my-title-text my-summit-button" onclick="document.getElementById('myForm').submit();">Save</p>
+	</div>
+</div>
+
+<div class="my-container">
+	<div class="row my-card" style="margin: 10px;">
+		<div class="col-12">
+			<p class="my-text">Serial <a style="color: #36f;" onclick="document.getElementById('serial').value = String(parseInt(Math.random()*10000000000))">random</a></p>
+			<input id="serial" type="text" name="serial" class="my-textbox" placeholder="serial" value="{{data.serial}}" maxlength="10" required>
+		</div>
+		<div class="col-12">
+			<p class="my-text">Name</p>
+			<input id="name" type="text" name="name" class="my-textbox" placeholder="name" value="{{data.name}}" maxlength="50" required>
+		</div>
+		<div class="col-12">
+			<p class="my-text">Owner</p>
+			<select class="my-selector" name="owner" required>
+				{% for auser in alluser %}
+					<option value="{{auser.id}}">{{ auser.name }}</option>
+				{% endfor %}
+			</select>		
+		</div>
+		<div class="col-12">
+			<p class="my-text">Profile</p>
+			<select class="my-selector" name="profile" required>
+				{% for aprofile in allprofile %}
+					{% if aprofile.id == data.profile %}
+						<option value="{{aprofile.id}}" selected>{{ aprofile.name }}</option>
+					{% else %}
+						<option value="{{aprofile.id}}">{{ aprofile.name }}</option>
+					{% endif %}
+				{% endfor %}
+			</select>
+		</div>
+		<div class="col-12">
+			<p class="my-text">Start Date</p>
+			<input id="name" type="datetime-local" name="start_date" class="my-textbox" placeholder="name" value="{{data.start_date}}">
+		</div>
+		<!-- <div class="col-12">
+			<p class="my-text">Status</p>
+			<p class="my-textbox">{{ data.status }}</p>
+		</div>
+		<div class="col-12">
+			<p class="text-c"><a class="my-text" style="color: #36f;" href="">START</a></p>
+		</div> -->
+		<div class="col-12">
+            <p class="my-text">Action</p>
+            <p class="my-textbox">
+                <p class="my-hide my-textbox" id="confirm-1">
+                    Confirm remove 
+                    <a style="font-weight: bold;" href="/admin/device/remove/{{data.id}}/">Confirm</a>
+                </p>
+                <a class="my-textbox" id="confirm-2" style="color: #36f;" onclick="document.getElementById('confirm-1').className = 'my-textbox thai_font';document.getElementById('confirm-2').className = 'my-hide';">Remove
+                </a>
+            </p>
+        </div>
+	</div>
+</div>
+
+</form>
+	
+{% endblock %}

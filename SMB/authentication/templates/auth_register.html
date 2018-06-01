@@ -1,0 +1,47 @@
+{% extends 'auth_base.html' %} 
+{% block content %} 
+{% load static %}
+<br><br><br>
+<div class="uk-container">
+	<div class="uk-card uk-card-default uk-card-body uk-width-1-2@m uk-align-center">
+		<h1 class="thai_font-title ">Sign up</h1>
+		<form method="post">{% csrf_token %}
+			<div class="row"> 
+				<div class="col-md-12">
+					<p class="thai_font">username</p>
+					{{ form.username}}
+				</div>
+			</div>
+			{% if form.errors.username %}
+				<p style="color: #EF5350;font-weight: bold;" class="thai_font" >{{ form.errors.username }}</p>
+			{% endif %}
+			<div class="row"> 
+				<div class="col-md-12">
+					<p class="thai_font">password (must be 8 characters including uppercase letter and numuric)</p>
+					{{ form.password1}}
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-md-12">
+					<p class="thai_font">confirm password</p>
+					{{ form.password2 }} 
+				</div>
+			</div>
+			{% if form.errors.password2 %}
+				<p style="color: #f33;font-weight: bold;" class="thai_font" >{{ form.errors.password2 }}</p>
+				<!-- <div class=""\r\nDEFINES += " "\r\nDEFINES += "-danger"> <strong>{{ form.errors.password2|escape }}</strong></div> -->
+			{% endif %}
+			<button type="submit" class="log-btn">Sign up</button>
+		</form>
+	</div>
+
+	<script type="text/javascript">
+		var divs = document.getElementsByTagName("input");
+		for(var i = 0; i < divs.length; i++){
+			divs[i].classList.add('uk-input');;
+		}
+	</script>
+</div>
+<br>
+
+{% endblock %}

@@ -1,0 +1,77 @@
+{% extends 'base.html' %} {% block content %} {% load static %}
+    <style>
+    body,html{
+    background-image: url('{% static "images/bglogin.jpg"%}');
+    padding: 0;
+    background-size: cover;
+    }
+    .errorlist
+    {
+    color:#EF5350;
+    font-weight: bold;
+    }
+    </style>
+        <br><br><br>
+    <div class="uk-container">
+        <div class="uk-card uk-card-default uk-card-body uk-width-1-2@m uk-align-center">
+            <!-- <div class="signup-form" style="width:40%" > -->
+                <h1 class="thai_font-title ">Sign up</h1>
+                <form method="post">
+                    {% csrf_token %}
+
+                        <div class="row"> <div class="form-group ">
+                            <div class="col-md-12">
+
+                                <p class="thai_font">username</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                          {{ form.username  }}
+                        <!-- {{ form.username |add_class:"uk-input" |append_attr:"placeholder:username " }} -->
+                      </div>
+
+                    </div>
+                    {% if form.errors.username %}
+
+                        <p style="color: #EF5350;font-weight: bold;" class="thai_font" >{{ form.errors.username }}</p>
+                    {% else %}    <br>
+                    {% endif %}
+
+                    <div class="row">
+                        <div class="col-md-12">
+                            <p class="thai_font">password (must be 8 characters including uppercase letter and numuric)</p>
+                            {{ form.password1}}</div>
+                            <div class="col-md-6">
+                            </div>
+                        </div>
+                     <br>
+
+                        <div class="row">
+                            <div class="col-md-12">
+                                <p class="thai_font">confirm password</p>
+                            </div>
+
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                            {{ form.password2 }} </div>
+
+                        </div>
+                           {% if form.errors.password2 %}
+                            <p  style="color: #EF5350;font-weight: bold;" class="thai_font" >{{ form.errors.password2 }}</p>
+                            <!-- <div class=""\r\nDEFINES += " "\r\nDEFINES += "-danger"> <strong>{{ form.errors.password2|escape }}</strong></div> -->
+                        {% else %}    <br>
+                        {% endif %}
+
+
+                    <br>
+                    <button type="submit" class="log-btn">Sign up</button>
+
+                </form>
+              </div>
+
+            </div>
+            <br>
+        {% endblock %}

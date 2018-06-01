@@ -1,0 +1,315 @@
+{% extends 'web_base.html' %}{% block content %}{% load staticfiles %}
+
+<script type="text/javascript"> document.getElementById('nav-item-3').classList.add("active")</script>
+<meta name="format-detection" content="telephone=no">
+
+<style type="text/css">
+	a:hover{ text-decoration: none; color: #333 !important;}
+	p{ margin: 0px; }
+
+	.text-r{ text-align: right; }
+	.text-c{ text-align: center; }
+	.text-l{ text-align: left; }
+
+	.my-container{ background-color: #f8f8f8; }
+
+	.my-card{
+	  background-color: #fff;
+	  box-shadow: 0px 5px 15px #ddd;
+	  padding: 20px;
+	}
+	.my-img{
+	  /*width: 80px;*/  
+	  width: 100%;  
+	  vertical-align: middle;
+	  /*height: 100%;
+	  object-fit: contain;*/
+	}
+
+	.table{
+	  border-style: none;
+	}
+	.table-img{
+	  width: 80px;  
+	}
+
+	.my-nav-2{ background-color: #fff; }
+
+	.my-text-1{ color: #faaf3c;  }
+	.my-text-2{ color: #bbb; }
+	.my-text-3{ color: #faaf3c;  }
+	.my-text-4{ color: #faaf3c; font-weight: bold; }
+
+	.my-view-mode{ color: #000; }
+	.my-view-mode:hover{ color: #36f; cursor: pointer; }
+
+	.table-responsive{
+	  background-color: #fff;
+	  box-shadow: 0px 5px 15px #ddd;
+	  padding: 20px;
+	}
+	.my-table-head{ color: #aaa; }
+	.my-table-body{ color: #666; }
+
+	.progress{ 
+		border-radius: 0px;
+		background-color: #eee;
+		box-shadow: none; 
+		height: 5px;
+		margin-bottom: 10px;
+	}
+	.progress-bar{ 
+		background-color:#ff8c1a; 
+		box-shadow: none; 
+	}
+
+	.my-line{
+		margin-top: 20px; 
+		width: 100%; 
+		height: 1px; 
+		background-color: #eee;
+	}
+
+	/* For Phone */
+	/*@media screen and (max-width: 640px) {
+	}*/
+	/* For Phone */
+	@media screen and (min-width: 0px) and (max-width: 1024px) {
+	  .my-nav-2{ padding: 0px 40px 10px 20px; /* T R B L */ }
+	  .my-container{ padding: 20px; }
+	  .my-title-text{ font-size: 60px; }
+
+	  .my-card-body{ padding: 60px; }
+	  .my-text-1{ font-size: 25px; line-height: 50px; }
+	  .my-text-2{ font-size: 12px; line-height: 16px; }
+	  .my-text-3{ font-size: 12px; line-height: 16px; }
+	  .my-text-4{ font-size: 20px; line-height: 30px; }
+
+	  .my-table-head{ font-size: 40px;}
+	  .my-table-body{ font-size: 40px; line-height: 80px;}
+
+	  .col-xs-6{ padding: 0px 2.5px 0px 2.5px; }
+	}
+	/* For Desktop */
+	@media screen and (min-width: 1024px) {
+	  .my-nav-2{ padding: 0px 25px 10px 18px; /* T R B L */ }
+	  .my-container{ padding: 20px 60px 60px 60px; }
+	  .my-title-text{ font-size: 25px; }
+
+	  .my-card-body{ padding: 20px; }
+	  .my-text-1{ font-size: 30px; line-height: 40px; }
+	  .my-text-2{ font-size: 16px; line-height: 20px; }
+	  .my-text-3{ font-size: 16px; line-height: 20px; }
+	  .my-text-4{ font-size: 20px; line-height: 30px; }
+
+	  .my-table-head{ font-size: 30px;}
+	  .my-table-body{ font-size: 30px; line-height: 80px;}
+	}
+	a{ color: #ff8c1a; }
+	a:hover{ color: #36f !important; }
+</style>
+
+<div class="my-container">
+	<div class="row">
+		<div class="col-xs-12" id="box-{{ box.id }}">
+			<div class="my-card">
+				<div class="row"  style="padding: 0px 20px 0px 20px;">
+					<div class="col-12">
+						<p class="my-text-1 thai_font"><a href="/device/"><i class="fa fa-chevron-left"></i></a> {{ box.name }}</p>
+						<div class="my-line"></div>
+					</div>
+				</div>
+				<div class="row" style="padding: 0px 20px 0px 20px;">
+					<div class="col-md-12">
+						<div style="margin-top: 20px;">
+							<div class="row">
+								<div class="col-xs-6"><p class="my-text-2 thai_font text-r">serial</p></div>
+								<div class="col-xs-6"><p class="my-text-3 thai_font text-l">{{ box.serial }}</p></div>
+							</div>
+							<div class="row">
+								<div class="col-xs-6"><p class="my-text-2 thai_font text-r">profile</p></div>
+								<div class="col-xs-6"><p class="my-text-3 thai_font text-l">{{ box.profile }}</p></div>
+							</div>
+							<div class="row">
+								<div class="col-xs-6"><p class="my-text-2 thai_font text-r">temparature</p></div>
+								<div class="col-xs-6"><p class="my-text-3 thai_font text-l">{{ box.temp }} 
+								</p></div>
+							</div>
+							<div class="row">
+								<div class="col-xs-6"><p class="my-text-2 thai_font text-r">humidity</p></div>
+								<div class="col-xs-6"><p class="my-text-3 thai_font text-l">{{ box.humi }} 
+								</p></div>
+							</div>
+							<div class="row">
+								<div class="col-xs-6"><p class="my-text-2 thai_font text-r">light</p></div>
+								<div class="col-xs-6">
+									{% if box.light == 'rgb(0,0,0)' %}
+										<p class="my-text-3 thai_font text-l">OFF</p>
+									{% else %}
+										<p class="my-text-3 thai_font text-l">ON <span style="color: {{box.light}}">#</span></p>
+									{% endif %}
+								</div>
+							</div>
+						</div>
+						<div style="margin-top: 20px;">
+							<div class="row">
+								<div class="col-xs-6"><p class="my-text-2 thai_font text-r">เวลาเริ่ม</p></div>
+								<div class="col-xs-6"><p class="my-text-3 thai_font text-l">
+									{{ box.start_date }}</p>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-xs-6"><p class="my-text-2 thai_font text-r">อัพเดทข้อมูลล่าสุด</p></div>
+								<div class="col-xs-6"><p class="my-text-3 thai_font text-l">
+									{{ box.update_date }}</p>
+								</div>					
+							</div>
+							<div class="row">
+								<div class="col-xs-6"><p class="my-text-2 thai_font text-r">เวลาสิ้นสุด</p></div>
+								<div class="col-xs-6"><p class="my-text-3 thai_font text-l">
+									{{ box.end_date }}</p>
+								</div>
+							</div>
+						</div>
+						<div style="margin-top: 20px;">
+							<div class="row">
+								<div class="col-xs-6"><p class="my-text-2 thai_font text-r">ระยะเวลาทั้งหมด</p></div>
+								<div class="col-xs-6"><p class="my-text-3 thai_font text-l">
+									{{ box.time_all.day }} วัน {{ box.time_all.hour }} ชั่วโมง {{ box.time_all.minute }} 	นาที
+								</p></div>
+							</div>
+							<div class="row">
+								<div class="col-xs-6"><p class="my-text-2 thai_font text-r">ดำเนินการไปแล้ว</p></div>
+								<div class="col-xs-6"><p class="my-text-3 thai_font text-l">
+								{{ box.time_use.day }} วัน {{ box.time_use.hour }} ชั่วโมง {{ box.time_use.minute }} นาที
+								</p></div>					
+							</div>
+							<div class="row">
+								<div class="col-xs-6"><p class="my-text-2 thai_font text-r">เหลือเวลาอีก</p></div>
+								<div class="col-xs-6"><p class="my-text-3 thai_font text-l">
+								{{ box.time_left.day }} วัน {{ box.time_left.hour }} ชั่วโมง {{ box.time_left.minute }} 	นาที
+								</p></div>
+							</div>
+						</div>
+						<div style="margin-top: 20px;">
+							<div class="row">
+								<div class="col-xs-6"><p class="my-text-2 thai_font text-r">ดำเนินการไปแล้ว</p></div>
+								<div class="col-xs-6"><p class="my-text-3 thai_font text-l">
+									{{ box.progress }} %</p>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-xs-6"><p class="my-text-2 thai_font text-r">สถานะการทำงาน</p></div>
+								<div class="col-xs-6">
+									{% if box.status == 'finished' %}
+										<p class="my-text-2 thai_font text-l" style="color: #3c3;">สิ้นสุดการปลูก</p>
+									{% else %}
+										<p class="my-text-3 thai_font text-l">{{ box.status }}</p>
+									{% endif %}
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="my-line"></div>
+				<div style="margin-top: 20px;">
+					<div class="row">
+						<!-- <div class="col-xs-12"><p class="thai_font text-c"><a href="/device/view/{{box.id}}/" class="my-text-4">VIEW</a></p></div> -->
+						<div class="col-xs-12"><p class="thai_font text-c"><a href="/device/edit/{{box.id}}/" class="my-text-4">EDIT</a></p></div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<!-- 
+<div class="uk-background-muted">
+  <br>
+  <div class="container">
+	  <div class="uk-grid"> 
+		<div class="uk-width-1-2@m uk-width-1-1@s">
+		  <div>
+			<div class="uk-card uk-card-default uk-card-hover uk-card-body">
+			  <div>
+				<h3 class="uk-card-title thai_font" style="color: #d8703f">แมววว{{box.name}}
+				  <span id="stat" class="uk-badge" style="background-color: #33691E" >Good</span>
+				  <span id="stat" class="uk-badge" style="background-color: #FF5722" >Warning</span>
+				  <span id="stat" class="uk-badge" style="background-color: #E53935" >Danger</span>
+				</h3>
+				<p></p>
+			  </div>
+			  <div class="uk-child-width-1-2@m uk-child-width-1-2@s" uk-grid>
+				<div>
+				  <div class="uk-child-width-1-2@m uk-child-width-1-2@s" uk-grid>
+					<div>
+					  <p class="thai_font box-label" for=""><i class="fa fa-thermometer-quarter" aria-hidden="true"></i> อุณหภูมิ</p>
+					</div>
+					<div>
+					  <p>99{{box.humidity}} °C</p>
+					</div>
+				  </div>
+				</div>
+				<div>
+				  <div class="uk-child-width-1-2@m uk-child-width-1-2@s" uk-grid>
+					<div>
+					  <p class="thai_font box-label" for=""> <i class="fa fa-tint" aria-hidden="true"></i> ความชื้น</p>
+					</div>
+					<div>
+					  <p>99{{box.humidity}} %</p>
+					</div>
+				  </div>
+				</div>
+				<div>
+				  <div class="uk-child-width-1-2@m uk-child-width-1-2@s" uk-grid>
+					<div>
+					  <p class="thai_font box-label" for=""> <i class="fa fa-envira" aria-hidden="true"></i> เริ่มปลูก</p>
+					</div>
+					<div>
+					  <p style="font-weight:bold">Mar, 10 2018{{box.start_date |date:"M, d Y"}}</p>
+					</div>
+				  </div>
+				</div>
+				<div>
+				  <div class="uk-child-width-1-2@m uk-child-width-1-2@s" uk-grid>
+					<div>
+					  <p class="thai_font box-label" for=""><i class="fa fa-smile-o" aria-hidden="true"></i> กินได้</p>
+					</div>
+					<div>
+					  <p>Mar, 20 2018{{box.end_date|date:"M, d Y" }}</p>
+					</div>
+				  </div>
+				</div>
+				<div>
+				  <div class="uk-child-width-1-2@m uk-child-width-1-2@s" uk-grid>
+					<div>
+					  <p class="thai_font box-label" for=""><i class="fa fa-line-chart" aria-hidden="true"></i> โปรไฟล์</p>
+					</div>
+					<div>
+					  <p>สัตว์{{box.profile}} </p>
+					</div>
+				  </div>
+				</div>
+				<div>
+				</div>
+			  </div>
+			  <hr>
+			  <div class="uk-child-width-1-4@m uk-child-width-1-4@s uk-child-width-1-4@l" uk-grid>
+				<div class="thai_font uk-text-left">
+				  <button class="uk-button uk-button-text thai_font" onclick="location.href=''"> อ่านเพิ่มเติม</button>
+				</div>
+				<div class="">
+				</div>
+				<div class="">
+				</div>
+				<div class="thai_font uk-text-left">
+				  <button class="uk-button uk-button-text thai_font"> ตั้งค่ากล่อง</button>
+				</div>
+			  </div>
+			  
+			</div>
+		  </div>
+		  <br>
+		</div>
+ -->
+
+{% endblock %}

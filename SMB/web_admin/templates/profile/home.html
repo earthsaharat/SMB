@@ -1,0 +1,243 @@
+{% extends 'admin_base.html' %}
+{% load staticfiles %}
+{% block content %}
+
+	<script type="text/javascript"> document.getElementById('navi-4').classList.add("nav-active")</script>
+
+	<style type="text/css">
+		a:hover{ text-decoration: none; color: #333 !important;}
+		p{ margin: 0px; }
+
+		.text-r{ text-align: right; }
+		.text-c{ text-align: center; }
+		.text-l{ text-align: left; }
+
+		.my-card{
+			background-color: #fff;
+			box-shadow: 0px 5px 15px #ddd;
+		}
+		.my-img{
+			/*width: 80px;*/	
+			width: 100%;	
+			vertical-align: middle;
+			/*height: 100%;
+			object-fit: contain;*/
+		}
+
+		.table{
+			border-style: none;
+		}
+		.table-img{
+			width: 80px;	
+		}
+
+		.my-nav-2{ background-color: #fff; }
+
+		.my-text-1{ color: #333; text-align: center; }
+		.my-text-2{ color: #bbb; text-align: center; }
+		.my-text-3{ color: #777; text-align: center; }
+		.my-text-4{ text-align: center; }
+
+		.my-view-mode{ color: #000; }
+		.my-view-mode:hover{ color: #36f; cursor: pointer; }
+
+		.table-responsive{
+			background-color: #fff;
+			box-shadow: 0px 5px 15px #ddd;
+			padding: 20px;
+		}
+		.my-table-head{ color: #aaa; }
+		.my-table-body{ color: #666; }
+		/* For Phone */
+		/*@media screen and (max-width: 640px) {
+		}*/
+		/* For Phone */
+		@media screen and (min-width: 0px) and (max-width: 1024px) {
+			.my-nav-2{ padding: 0px 40px 10px 20px; /* T R B L */ }
+			.my-container{ padding: 20px; }
+			.my-title-text{ font-size: 60px; }
+
+			.my-card-body{ padding: 60px; }
+			.my-text-1{ font-size: 50px; line-height: 100px; }
+			.my-text-2{ font-size: 22px; line-height: 40px; }
+			.my-text-3{ font-size: 30px; line-height: 40px; }
+			.my-text-4{ font-size: 40px; margin-top: 40px; }
+
+			.my-table-head{ font-size: 40px;}
+			.my-table-body{ font-size: 40px; line-height: 80px;}
+		}
+		/* For Desktop */
+		@media screen and (min-width: 1024px) {
+			.my-nav-2{ padding: 0px 25px 10px 18px; /* T R B L */ }
+			.my-container{ padding: 20px 60px 60px 60px; }
+			.my-title-text{ font-size: 25px; }
+
+			.my-card-body{ padding: 20px; }
+			.my-text-1{ font-size: 30px; line-height: 50px; }
+			.my-text-2{ font-size: 16px; }
+			.my-text-3{ font-size: 20px; }
+			.my-text-4{ font-size: 20px; margin-top: 12px; }
+
+			.my-table-head{ font-size: 30px;}
+			.my-table-body{ font-size: 30px; line-height: 80px;}
+		}
+
+		.col-4{ padding: 0px; }
+
+	</style>
+
+
+
+<div class="my-nav-2">
+	<div class="row">
+		<div class="col-8"><p class="my-title-text"><span class="my-view-mode" id="view-mode-button" onclick="changeMode()"></span> Profile<p></div>
+		<p class="col-4 text-r my-title-text"><a href="{% url 'admin_profile_add' %}">Add</a></p>
+	</div>
+</div>
+<div class="my-container" >
+	<div class="row" id="container"></div>
+	<!-- <div class="row" style="padding: 10px;">
+		<div class="col-lg-3">
+			<div class="my-card">
+				<img class="my-img" src="{% static 'images/plant_size.jpg' %}">
+				<div class="my-card-body">
+					<p class="my-text-1">เห็ดถั่งเช่าสีทอง</p>
+					<div class="row">
+						<p class="col-4 my-text-2">ผู้สร้าง</p>
+						<p class="col-4 my-text-2">ใช้เวลา</p>
+						<p class="col-4 my-text-2">กำลังปลูก</p>
+					</div>
+					<div class="row">
+						<p class="col-4 my-text-3">Saharat</p>
+						<p class="col-4 my-text-3">10 วัน</p>
+						<p class="col-4 my-text-3">0 คน</p>
+					</div>
+					<div class="row">
+						<p class="col-12 my-text-4"><a href="edit/1/">EDIT</a></p>
+					</div>	
+				</div>
+			</div>
+		</div>
+	</div> -->
+	<!-- <div class="table-responsive">
+		<table class="table table-borderless table-sm">
+			<thead class="my-table-head">
+				<tr>
+					<th>รูป</th>
+					<th>ชื่อ</th>
+					<th>เวลาที่ใช้</th>
+					<th>กำลังใช้อยู่</th>
+					<th></th>
+				</tr>
+			</thead>
+			<tbody class="my-table-body" id="table">
+				<tr>
+					<td><img class="table-img" src="{% static 'images/plant_size.jpg' %}"></td>
+					<td>เห็ดถั่งเช่าสีทอง</td>
+					<td>20 วัน</td>
+					<td>10 คน</td>
+					<td><a href="/admin/profile/edit/{{aprofile.id}}/"><span class="">EDIT</span></a></td>
+				</tr>
+				<tr>
+					<td><img class="table-img" src="{% static 'images/plant_size.jpg' %}"></td>
+					<td>เห็ดถั่งเช่าสีทอง</td>
+					<td>20 วัน</td>
+					<td>10 คน</td>
+					<td><a href="/admin/profile/edit/{{aprofile.id}}/"><span class="">EDIT</span></a></td>
+				</tr>
+			</tbody>
+		</table>
+	</div> -->
+</div>
+
+<!-- <p id="h"></p><script type="text/javascript">document.getElementById('h').innerHTML = String(window.innerWidth)+','+String(window.innerHeight)</script>
+ -->
+
+ <script type="text/javascript">
+ 	var modeIsList = false
+
+ 	var container 		= document.getElementById('container')
+ 	var viewModeButton 	= document.getElementById('view-mode-button')
+
+	var data = JSON.parse('{{ profiles | escapejs }}');
+	console.log(data)
+
+ 	render()
+ 	function render(){
+ 		container.innerHTML = ""
+ 		if(modeIsList){
+ 			viewModeButton.innerHTML = '<i class="fa fa-reorder"></i>'
+ 			// viewModeButton.innerHTML = '<i class="fa fa-th-list"></i>'
+ 			container.innerHTML += '\
+ 			<div class="table-responsive">\
+				<table class="table table-borderless table-sm">\
+					<thead class="my-table-head">\
+						<tr>\
+							<th>รูป</th>\
+							<th>ชื่อ</th>\
+							<th>ใช้เวลา</th>\
+							<th>กำลังใช้</th>\
+							<th></th>\
+						</tr>\
+					</thead>\
+					<tbody class="my-table-body" id="table">'
+ 			for(var i=0;i<data.length;i++){
+ 				document.getElementById('table').innerHTML += '\
+ 						<tr>\
+							<td><img class="table-img" src="/media/'+data[i]['image']+'"></td>\
+							<td>'+data[i]['name']+'</td>\
+							<td>'+data[i]['lenDate']['day']+' วัน '+data[i]['lenDate']['hour']+' ชั่วโมง</td>\
+							<td>'+data[i]['inUseCount']+' อุปกรณ์</td>\
+							<td><a href="edit/'+data[i]['id']+'/">EDIT</span></a></td>\
+						</tr>'
+ 			}
+ 		}else{
+ 			viewModeButton.innerHTML = '<i class="fa fa-th-large"></i>'
+ 			container.innerHTML += '<div class="row" style="padding: 10px;">'
+ 			for(var i=0;i<data.length;i++){
+ 				var screenWidth = window.innerWidth
+ 				var screenHeight = window.innerHeight
+ 				if 		( screenWidth < 600 )
+ 					container.innerHTML += '<div class="col-12" id="card-'+i+'">'
+ 				else if ( screenWidth < 1024 ){
+ 					// if( screenWidth < screenHeight )
+ 					container.innerHTML += '<div class="col-6" id="card-'+i+'">'
+ 				}else 
+ 					container.innerHTML += '<div class="col-3" id="card-'+i+'">'
+ 				document.getElementById('card-'+i).innerHTML += '\
+ 					\
+						<div class="my-card">\
+							<img class="my-img" src="/media/'+data[i]['image']+'">\
+							<div class="my-card-body">\
+								<p class="my-text-1">'+data[i]['name']+'</p>\
+								<div class="row">\
+									<p class="col-4 my-text-2">ผู้สร้าง</p>\
+									<p class="col-4 my-text-2">ใช้เวลา</p>\
+									<p class="col-4 my-text-2">กำลังใช้</p>\
+								</div>\
+								<div class="row">\
+									<p class="col-4 my-text-3">'+data[i]['creator']+'</p>\
+									<p class="col-4 my-text-3">'+data[i]['lenDate']['day']+'d '+data[i]['lenDate']['hour']+'h</p>\
+									<p class="col-4 my-text-3">'+data[i]['inUseCount']+'เครื่อง</p>\
+								</div>\
+								<div class="row">\
+									<p class="col-12 my-text-4"><a href="edit/'+data[i]['id']+'/">EDIT</a></p>\
+								</div>\
+							</div>\
+						</div>\
+					</div>\
+ 				'
+ 			}
+ 			container.innerHTML += '</div>'
+ 		}
+ 	}
+ 	function changeMode(){
+ 		modeIsList = !modeIsList
+ 		render()
+ 	}
+ 	window.onresize = function(event) {
+ 		render()
+	}
+ </script>
+
+{% endblock %}

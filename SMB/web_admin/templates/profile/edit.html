@@ -1,0 +1,430 @@
+{% extends 'admin_base.html' %}
+{% load staticfiles %}
+{% block content %}
+
+	<script type="text/javascript"> document.getElementById('navi-4').classList.add("nav-active")</script>
+
+	<style type="text/css">
+		a:hover{ text-decoration: none; color: #333 !important;}
+		p{ margin: 0px; }
+		/*i{ color: #36f }
+		i:hover{ color: #333; cursor: pointer; }*/
+		.my-hover-blue:hover{ color: #36f !important; cursor: pointer; }
+
+		.text-r{ text-align: right; }
+		.text-c{ text-align: center; }
+		.text-l{ text-align: left; }
+
+		.my-card{
+			background-color: #fff;
+			box-shadow: 0px 5px 15px #ddd;
+		}
+		.my-img{
+			/*width: 80px;*/	
+			width: 100%;	
+			vertical-align: middle;
+			/*height: 100%;
+			object-fit: contain;*/
+		}
+
+		.my-tb{ border-style: none; padding: 0px; }
+		.my-textbox{
+			text-align: left; 
+			color: #333;
+			border-style: none;
+			background-color: transparent;
+			width: 100%;
+		}
+		input:focus { outline:0; }
+		::placeholder { /* Firefox */ color: #ccc; }
+		:-ms-input-placeholder { /* Internet Explorer 10-11 */ color: #ccc; }
+		::-ms-input-placeholder { /* Microsoft Edge */ color: #ccc; }
+
+		.table{
+			border-style: none;
+		}
+		.table-img{
+			width: 80px;	
+		}
+
+		.my-nav-2{ background-color: #fff; }
+
+		.my-text-1{ color: #333; text-align: center; }
+		.my-text-2{ color: #bbb; text-align: center; }
+		.my-text-3{ color: #777; text-align: center; }
+		.my-text-4{ text-align: center; }
+
+		.my-view-mode{ color: #000; }
+
+		.inputfile{
+			display: none;
+		}
+		/*.inputfile + label {
+		    font-size: 1.25em;
+		    font-weight: 700;
+		    color: white;
+		    background-color: black;
+		    display: inline-block;
+		}*/
+		.inputfile:focus + label, .inputfile + label:hover {
+		    color: #36f;
+		}
+		.inputfile + label { cursor: pointer; /* "hand" cursor */ }
+		.inputfileText{ cursor: pointer; }
+
+		.table-responsive{
+			background-color: #fff;
+/*			box-shadow: 0px 5px 15px #ddd;
+*/			padding: 20px;
+		}
+		.my-table-head{ color: #aaa; }
+		.my-table-body{ color: #666; }
+
+
+		.my-image-input:hover{ opacity: 0.3; cursor: pointer; }
+
+		/* For Phone */
+		/*@media screen and (max-width: 640px) {
+		}*/
+		/* For Phone */
+		@media screen and (min-width: 0px) and (max-width: 980px) {
+			.my-nav-2{ padding: 0px 40px 10px 20px; /* T R B L */ }
+			.my-container{ padding: 20px; }
+			.my-title-text{ font-size: 60px; text-align: center;}
+			.my-textbox{ font-size: 80px; text-align: center; width: 100%; margin-bottom: 80px; }
+			.my-tb{ font-size: 40px; width: 8vw; height: 45px; }
+
+			.my-card-body{ padding: 60px; }
+			.my-text-1{ font-size: 60px; line-height: 120px;}
+			.my-text-2{ font-size: 40px; line-height: 60px; }
+			.my-text-3{ font-size: 50px; line-height: 70px; }
+			.my-text-4{ font-size: 50px; margin-top: 50px; }
+
+			.my-table-head{ font-size: 30px; line-height: 80px;}
+			.my-table-body{ font-size: 30px; line-height: 40px;}
+			.my-table-button{ letter-spacing: 10px; }
+
+			.my-image-input{ width: 70%; 
+				margin-left: auto; margin-right: auto; display: block; 
+				margin-top: 150px; margin-bottom: 50px; border-radius: 8%; }
+		}
+		/* For Desktop */
+		@media screen and (min-width: 1024px) {
+			.my-nav-2{ padding: 0px 25px 10px 18px; /* T R B L */ }
+			.my-container{ padding: 20px 60px 60px 60px; }
+			.my-title-text{ font-size: 25px; }
+			.my-textbox{ font-size: 40px; width: 60%; line-height: 60px; }
+			.my-tb{ font-size: 30px; width: 8vw; height: 30px; }
+
+			.my-card-body{ padding: 20px; }
+			.my-text-1{ font-size: 30px; line-height: 50px; }
+			.my-text-2{ font-size: 16px; }
+			.my-text-3{ font-size: 20px; }
+			.my-text-4{ font-size: 20px; margin-top: 12px; }
+
+			.my-table-head{ font-size: 25px; line-height: 40px;}
+			.my-table-body{ font-size: 20px; line-height: 25px;}
+			.my-table-button{ letter-spacing: 8px; }
+
+			.my-image-input{ width: 100px; margin-right: 20px; }
+		}
+
+		/*.my-title-text{ color: #333; }
+		.my-title-text:hover{ color: #36f; }*/
+
+    	.my-summit-button:hover{ color: #666; cursor: pointer; }
+
+    	.my-add-button{ color: #36f; }
+    	.my-add-button:hover{ color: #999; cursor: pointer; }
+
+	</style>
+
+
+<div class="my-nav-2">
+	<div class="row">
+		<div class="col-lg-5">
+			<p  class="my-title-text">
+				<a href="/admin/profile/">
+					<i class="fa fa-chevron-left" style="color: #333;"></i>
+				</a>
+				<span id="name-label">All Profiles</span>
+			</p>
+		</div>
+		<p class="col-lg-7 text-r my-title-text"><span style="color: #f66;" id="errorMsg"></span> <a class="my-summit-button" style="color: #36f;" onclick="submit()" id="saveButton">Save</a></p>
+	</div>
+</div>
+<div class="my-container">
+	<div class="row my-card" style="margin: 10px;">
+		<div class="col-12" style="padding: 0px;">
+			<form method="post" id="myForm" enctype="multipart/form-data">{% csrf_token %}
+				<img id="main-img" class="my-image-input" src="/media/{{image}}" onclick="document.getElementById('imageInput').click()">
+				<input id="imageInput" type="file" name="imageInput" class="my-text-1 inputfile" onchange="changeImage(this.files[0])" accept=".jpg,.png">
+				<input id="Name" type="text" name="name" class="my-textbox" placeholder="Name" value="{{name}}">
+				<input id="Content" type="text" name="content" style="display: none;">
+				<!-- <p class="my-text-3" style="color: #f66;" id="errorMsg"></p> -->
+			</form>
+		</div>
+	</div>
+	<div class="row" style="padding: 10px;">
+		<div class="col-12">
+			<div class="my-card">
+				<div class="table-responsive">
+					<table class="table table-borderless table-sm">
+						<thead class="my-table-head">
+							<tr>
+								<th>Day</th>
+								<th>Hour</th>
+								<th>Temp</th>
+								<th>Humi</th>
+								<th>R</th>
+								<th>G</th>
+								<th>B</th>
+								<th></th>
+							</tr>
+						</thead>
+						<tbody class="my-table-body" id="table">
+							<!-- <tr>
+								<td>10</td>
+								<td>20</td>
+								<td>10</td>
+								<td>20</td>
+								<td style="color:#f99">10</td>
+								<td style="color:#9f9">10</td>
+								<td style="color:#99f">10</td>
+								<td class="text-c"><p>
+									<i class="fa fa-caret-up"	onclick="up('+i+')"></i>
+									<i class="fa fa-caret-down" onclick="down('+i+')"></i>
+									<i class="fa fa-close" 		onclick="remove('+i+')"></i>
+								</p></td>
+							</tr> -->
+							<!-- <tr>
+								<td><input type="text" placeholder="Day" class="my-tb"></td>
+								<td><input type="text" placeholder="Hour" class="my-tb"></td>
+								<td><input type="text" placeholder="Temp" class="my-tb"></td>
+								<td><input type="text" placeholder="Humi" class="my-tb"></td>
+								<td><input type="text" placeholder="R" class="my-tb" style="color:#f99"></td>
+								<td><input type="text" placeholder="G" class="my-tb" style="color:#9f9"></td>
+								<td><input type="text" placeholder="B" class="my-tb" style="color:#99f"></td>
+							</tr> -->
+						</tbody>
+					</table>
+				</div>
+				<p class="my-text-1 text-c my-add-button" onclick="add()">Add</p>
+			</div>
+		</div>
+	</div>
+	<div class="row my-card" style="margin: 10px; padding: 60px;">
+		<div class="col-lg-6">
+			<a class="my-text-1 my-hover-blue" href="{% static 'xlsx/template.xlsx' %}" download="Profile Template.xlsx"><i class="fa fa-arrow-circle-down"></i> Download template file</a>
+		</div>
+		<div class="col-lg-6">
+			<input id="fileInput" type="file" name="file" class="my-text-1 inputfile" accept=".xlsx">
+			<label for="fileInput" class="my-text-1"><i class="fa fa-arrow-circle-up"></i> Import from Excel file</label> <!-- Choose a file -->
+			<p class="my-text-3" style="color: #6d6; text-align: left;" id="fileInputText"></p>
+			<p class="my-text-3" style="color: #f66; text-align: left;" id="fileInputText-error"></p>
+		</div>
+	</div>
+	
+</div>
+
+
+<!-- <p id="h"></p><script type="text/javascript">document.getElementById('h').innerHTML = String(window.innerWidth)+','+String(window.innerHeight)</script>
+ -->
+
+<script type="text/javascript">
+	let keyA = ['A','B','C','D','E','F','G']
+	let keyB = ['day','hour','temp','humi','r','g','b']
+
+	// var data = [{'day':0,'hour':0,'temp':0,'humi':0,'r':100,'g':0,'b':0}]
+	var data = JSON.parse('{{ data | escapejs }}');
+	// console.log(data)
+
+ 	render()
+ 	function render(){
+ 		var table = document.getElementById('table')
+ 		table.innerHTML = ""
+ 		for(var i=0;i<data.length;i++){
+ 			table.innerHTML += '\
+				<tr>\
+					<td><input type="number" placeholder="Day"  class="my-tb" value=\"'+data[i]['day']+
+						'\" oninput="edit('+i+',\'0\',this.value)" style="color:#fc9" min=0></td>\
+					<td><input type="number" placeholder="Hour" class="my-tb" value=\"'+data[i]['hour']+
+						'\" oninput="edit('+i+',\'1\',this.value)" style="color:#fc9" min=0 max=23></td>\
+					<td><input type="number" placeholder="Temp" class="my-tb" value=\"'+data[i]['temp']+
+						'\" oninput="edit('+i+',\'2\',this.value)" style="color:#f96" min=0 max=100></td>\
+					<td><input type="number" placeholder="Humi" class="my-tb" value=\"'+data[i]['humi']+
+						'\" oninput="edit('+i+',\'3\',this.value)" style="color:#f96" min=0 max=100></td>\
+					<td><input type="number" placeholder="R"    class="my-tb" value=\"'+data[i]['r']+
+						'\" oninput="edit('+i+',\'4\',this.value)" style="color:#f99" min=0 max=255></td>\
+					<td><input type="number" placeholder="G"    class="my-tb" value=\"'+data[i]['g']+
+						'\" oninput="edit('+i+',\'5\',this.value)" style="color:#8e8" min=0 max=255></td>\
+					<td><input type="number" placeholder="B"    class="my-tb" value=\"'+data[i]['b']+
+						'\" oninput="edit('+i+',\'6\',this.value)" style="color:#99f" min=0 max=255></td>\
+					<td class="text-c"><p class="my-table-button">\
+						<i class="fa fa-close" style="color:#36f; cursor:pointer;" onclick="remove('+i+')"></i>\
+					</p></td>\
+				</tr>\
+ 			'
+ 		}
+ 	}
+
+ 	function edit(index,keyBIndex,value){
+ 		data[index][keyB[keyBIndex]] = parseInt(value)
+ 		checkErrorAt(index,keyBIndex)
+ 		// console.log(data)
+ 		// render()
+ 	}
+ 	function add(){
+ 		if(data.length > 0) {
+ 			var lastData = data[data.length-1]
+ 			data.push({
+ 				'day':lastData['day'],
+ 				'hour':lastData['hour'],
+ 				'temp':lastData['temp'],
+ 				'humi':lastData['humi'],
+ 				'r':lastData['r'],
+ 				'g':lastData['g'],
+ 				'b':lastData['b']})
+ 		}else data.push({'day':0,'hour':0,'temp':0,'humi':0,'r':100,'g':0,'b':0})
+ 		render()
+ 	}
+ 	function remove(index){
+ 		data.splice(index, 1)
+ 		render()
+ 	}
+ 	function up(index){
+		if(index > 0 && index < data.length){
+			var temp = data[index-1]
+			data[index-1] = data[index]
+			data[index] = temp
+		}
+		render()
+	}
+	function down(index){
+		if(index > -1 && index < data.length-1){
+			var temp = data[index+1]
+			data[index+1] = data[index]
+			data[index] = temp
+		}
+		render()
+	}
+
+	function mainErrorMsg(msg){
+		if(msg == ""){
+			document.getElementById('errorMsg').innerHTML = ""
+			document.getElementById('saveButton').innerHTML = "Save"
+		}else{
+			document.getElementById('errorMsg').innerHTML = " <i class='fa fa-times-circle'></i> "+msg
+			document.getElementById('saveButton').innerHTML = ""
+		}
+	}
+	function isOutOfRange(value,min,max,field,row){
+		if (value < min || value > max){
+			mainErrorMsg(""+String(keyB[field]).toUpperCase()+" at row "+String(row)+" out of range "+String(min)+"-"+String(max))
+			return true
+		}
+		return false
+	}
+	function checkErrorAt(i,j){
+		var isError = false
+		let value = parseInt(data[i][keyB[j]])
+		if(isNaN(value)){isError = true;
+			mainErrorMsg("Please enter "+String(keyB[j]).toUpperCase()+" at row "+String(i+1))
+		}
+		else if(j == 0) isError = isOutOfRange(value,0,1825,j,i) // Day
+		else if(j == 1) isError = isOutOfRange(value,0, 23,j,i) // Hour
+		else if(j == 2) isError = isOutOfRange(value,0,100,j,i) // Temp
+		else if(j == 3) isError = isOutOfRange(value,0,100,j,i) // Humi
+		else if(j == 4) isError = isOutOfRange(value,0,255,j,i) // R
+		else if(j == 5) isError = isOutOfRange(value,0,255,j,i) // G
+		else if(j == 6) isError = isOutOfRange(value,0,255,j,i) // B
+		if(!isError) mainErrorMsg("")
+		// else console.log(value)
+		return isError
+	}
+	function submit(){
+		var isError = false
+		for(var i=0;i<data.length&&!isError;i++) 
+			for(var j=0;j<keyB.length&!isError;j++){
+				isError = checkErrorAt(i,j)
+			}
+		if(!isError){
+			document.getElementById('Content').value = JSON.stringify(data)
+			document.getElementById('myForm').submit();
+		}
+	}
+
+	function myCompare(a, b) {
+		var totalHourA = (a['day']*24) + a['hour']
+		var totalHourB = (b['day']*24) + b['hour']
+		if (totalHourA < totalHourB) {
+			return -1;
+		}
+		if (totalHourA > totalHourB) {
+			return 1;
+		}
+		return 0;
+	}
+	function reSort(){
+		data.sort(myCompare)
+	}
+
+ </script>
+
+<script type="text/javascript" src="{% static 'xlsx/shim.min.js' %}"></script>
+<script type="text/javascript" src="{% static 'xlsx/xlsx.full.min.js' %}"></script>
+<script>
+	var rABS = true; // true: readAsBinaryString ; false: readAsArrayBuffer
+	let fileMsgError = document.getElementById("fileInputText-error");
+	let fileMsgOther = document.getElementById("fileInputText");
+	function handleFile(e) {
+		data = []
+		var files = e.target.files, f = files[0];
+		if(files[0].name.split(".")[1] != "xlsx") { displayError("support only .xlsx ( Microsoft Excel Worksheet )"); return; }
+		var reader = new FileReader();
+		reader.onload = function(e) {
+			var fileData = e.target.result;
+			if(!rABS) fileData = new Uint8Array(fileData);
+			try {
+				var workbook = XLSX.read(fileData, {type: rABS ? 'binary' : 'array'});
+				let rowStartIdex = 2
+				var sheet = workbook.Sheets[workbook.SheetNames[0]]
+				var errorInCol = false
+				for(var iRow=rowStartIdex;!errorInCol;iRow++){
+					data.push({})
+					for(var iCol=0;iCol<keyA.length && !errorInCol;iCol++){
+						var value = sheet[String(keyA[iCol])+String(iRow)];
+						if(!value) errorInCol = true
+						else data[iRow-rowStartIdex][keyB[iCol]] = value.v
+					}
+				}
+				data.pop()
+				// console.log(data)
+				reSort()
+				render()
+   				fileMsgOther.innerHTML = "<i class='fa fa-check'></i> success";
+				fileMsgError.innerHTML = "";
+			}
+			catch(err) {
+				//err.message;
+				displayError("decoding error")
+			}
+		}
+		if(rABS) reader.readAsBinaryString(f); else reader.readAsArrayBuffer(f);
+	}
+	document.getElementById('fileInput').addEventListener('change', handleFile, false);
+	function displayError(msg){
+		fileMsgOther.innerHTML = "";//err.message;
+		fileMsgError.innerHTML = "<i class='fa fa-close'></i> "+msg;
+	}
+</script>
+
+<script type="text/javascript">
+	function changeImage(file){
+		console.log("change")
+		document.getElementById('main-img').src = window.URL.createObjectURL(file)
+	}
+</script>
+
+
+{% endblock %}

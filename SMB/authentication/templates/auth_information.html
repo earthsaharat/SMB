@@ -1,0 +1,70 @@
+{% extends 'auth_base.html' %} 
+{% block content %} 
+{% load static %}
+<br><br><br>
+<div class="uk-container">
+	<div class="uk-card uk-card-default uk-card-body uk-width-1-2@m uk-align-center">
+		<h1 class="thai_font-title ">Information</h1>
+		<form method="post" id="myform">{% csrf_token %}
+			<div class="row"> 
+				<div class="col-md-12">
+					<p class="thai_font">Username</p>
+					<input type="text" name="" class="uk-input" disabled value="{{user.username}}">
+				</div>
+			</div>
+			<div class="row"> 
+				<div class="col-md-12">
+					<p class="thai_font">Name</p>
+					<input type="text" name="firstname" class="uk-input" required value="{{user.first_name}}">
+				</div>
+			</div>
+			<div class="row"> 
+				<div class="col-md-12">
+					<p class="thai_font">Surname</p>
+					<input type="text" name="lastname" class="uk-input" required  value="{{user.last_name}}">
+				</div>
+			</div>
+			<div class="row"> 
+				<div class="col-md-12">
+					<p class="thai_font">Phone</p>
+					<input type="tel" name="phone" class="uk-input" value="{{phone}}" maxlength="15">
+				</div>
+			</div>
+			<div class="row"> 
+				<div class="col-md-12">
+					<p class="thai_font">Email <span>(optional)</span></p>
+					<input type="email" name="email" class="uk-input" value="{{user.email}}">
+				</div>
+			</div>
+			<div class="row"> 
+				<div class="col-md-12">
+					<p class="thai_font">Line ID <span>(optional)</span></p>
+					<input type="text" name="lineid" class="uk-input" value="{{lineid}}" maxlength="20">
+				</div>
+			</div>
+			<div class="row"> 
+				<div class="col-md-12">
+					<p class="thai_font">Facebook <span>(optional)</span></p>
+					<input type="text" name="facebook" class="uk-input" value="{{facebook}}" maxlength="50">
+				</div>
+			</div>			
+			<div class="row"> 
+				<div class="col-md-12">
+					<p class="thai_font">Address</p>
+					<textarea rows="5" class="uk-textarea" form="myform" name="address">{{address}}</textarea>
+				</div>
+			</div>
+			<button type="submit" class="log-btn">Save</button>
+		</form>
+	</div>
+
+	<script type="text/javascript">
+		var divs = document.getElementsByTagName("input");
+		for(var i = 0; i < divs.length; i++){
+			divs[i].classList.add('uk-input');;
+		}
+	</script>
+</div>
+<br>
+
+{% endblock %}

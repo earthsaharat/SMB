@@ -1,0 +1,63 @@
+{% extends 'admin_base.html' %}
+{% load staticfiles %}
+{% block content %}
+
+<script type="text/javascript"> document.getElementById('navi-2').classList.add("nav-active")</script>
+
+	<style type="text/css">
+		a:hover{ text-decoration: none;}
+		.my-card{
+			background-color: #fff;
+			margin: 6vmin 1vmin;
+			padding: 5vmin;
+			box-shadow: 0px 5px 15px #ddd;
+		}
+		.my-img{
+			width: 100%;
+			padding: 5vmin 10vmin 8vmin;
+		}
+		.my-h1{
+			font-size: 7.5vmin;
+			line-height: 4vmin;
+			font-family: Cloud_Bold; 
+			color: #000s;
+		}
+		.my-h2{
+			font-size: 4vmin;
+			line-height: 4vmin;
+			font-family: Cloud_Bold; 
+			color: #06f;
+			cursor: pointer;
+		}
+		.my-h2:hover{
+			color: #ccc;
+		}
+	</style>
+
+	<div class="container" style="text-align: center;">
+		<div class="row">
+			<div class="col-lg-4">
+				<div class="my-card">
+					<img class="my-img" src="{% static 'images/web_admin/bill.png' %}">
+					<p class="my-h1">Order</p>
+					<a href="{% url 'admin_order' %}"><span class="my-h2">{{len_order}} orders</span></a>
+				</div>			
+			</div>
+			<div class="col-lg-4">
+				<div class="my-card">
+					<img class="my-img" src="{% static 'images/web_admin/grow.png' %}">
+					<p class="my-h1">Profile</p>
+					<a href="{% url 'admin_profile' %}"><span class="my-h2">{{len_profile}} profiles</span></a>
+				</div>
+			</div>
+			<div class="col-lg-4">
+				<div class="my-card">
+					<img class="my-img" src="{% static 'images/web_admin/cpu.png' %}">
+					<p class="my-h1">Device</p>
+					<a href="{% url 'admin_device' %}"><span class="my-h2">{{len_device}} devices</span></a>
+				</div>			
+			</div>
+		</div>
+	</div>
+	
+{% endblock %}

@@ -1,0 +1,66 @@
+{% extends 'base2.html' %} {% load static %} {% block content %}{% load widget_tweaks %}
+<div class="navigation">
+    <div class="container">
+        <nav class="navbar navbar-default">
+            <div class="navbar-header nav_2">
+                <button type="button" class="navbar-toggle collapsed navbar-toggle1" data-toggle="collapse" data-target="#bs-megadropdown-tabs">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+            </div>
+            <div class="collapse navbar-collapse" id="bs-megadropdown-tabs">
+                <ul class="nav navbar-nav">
+                    <li><a href="/mushroom/" class="act">Home</a></li>
+                    <li><a href="/mushroom/mybox/">My Box</a></li>
+                    <li><a href="/mushroom/add/">Add Box</a></li>
+                    <li ><a href="/mushroom/buyproduct">Product</a></li>
+                    <li class="active"><a href="/mushroom/contact">Contact</a></li>
+                </ul>
+            </div>
+        </nav>
+    </div>
+</div>
+   <div class="bghead">
+    <br>
+    <!-- <h2 style="" class="thai_font-title">ก ล่ อ ง เ ห็ ด อั จ ฉ ริ ย ะ</h2> -->
+    <h2 style="" class="thai_font-title">กล่องเห็ดอัจฉริยะ</h2>
+    <h3 style="text-align: center; color: white;" class="thai_font head">เลี้ยงง่าย โตไว กำไรดี ควบคุมได้ด้วยตัวคุณ</h3>
+   <form action="{% url 'buy_box' %}">
+      <button class="uk-button uk-button-primary uk-align-center uk-button-large head-button" style="background-color: #2ecc71">Buy now</button>
+    </form>
+  
+      
+      <br>
+  
+   
+</div>
+</header>
+<div class="container">
+    <div class="uk-section uk-section-default">
+        <div class="uk-container uk-text-center">
+            
+                        <h3 class="thai_font" style="color:black;">ติดต่อเราได้ที่</h3>
+                        <dl class="uk-description-list" style="margin-top: -1%;">
+                            <dd> ร้าน Organis Innovation Space </dd>
+                            <dd>บริษัท EpsilonInformatics</dd>
+                            <!-- <dt>Description term</dt> -->
+                            <dd>โศธนะ วิชาเรือง (นาย)</dd>
+                            <dd>โทร 080-5267718</dd>
+                            <dd>Line naii999</dd>
+                            <dd>Email nai6320@gmail หรือ tuskr58018@sci.tu.ac.th</dd>
+                        </dl>
+                  <div class="social-contact" >
+                                        <ul>
+
+                                            <li><a href="https://web.facebook.com/sothna.vicharueng" ><i class="fa fa-facebook"></i></a></li>
+                                            <li><a href="https://twitter.com/sothana09008645"><i class="fa fa-twitter"></i></a></li>
+                                            <li><a href="https://plus.google.com/114987676952147018207"><i class="fa fa-google-plus"></i></a></li>
+                                            <!--<li><a href=""><i class="fa fa-linkedin"></i></a></li> -->
+                                        </ul>
+                                    </div>
+            </div>
+        </div>
+    </div>
+    {% endblock %}

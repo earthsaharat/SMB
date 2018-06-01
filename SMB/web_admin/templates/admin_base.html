@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+{% load staticfiles %}
+
+<html>
+<head>
+<!-- 	<title>OKS - Sell</title>
+ -->
+ 	<title>SMB - Admin</title>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+	<style type="text/css">
+		@font-face {
+		   font-family: Futura; 
+		   src: url({% static 'Fonts/Futura.otf' %});
+		} 
+		@font-face {
+		   font-family: Cloud_Light; 
+		   src: url({% static 'Fonts/Cloud-Light.otf' %});
+		} 
+		@font-face {
+		   font-family: Cloud_Bold; 
+		   src: url({% static 'Fonts/Cloud-Bold.otf' %});
+		} 
+		body{
+			font-family: Cloud_Bold;
+			background-color: #f9f9f9;
+		}
+
+		.nav-link{
+			font-family: Cloud_Bold; 
+			/*color: #999 !important;*/
+		}
+		.nav-link:hover{
+			/*color: #36f !important;*/
+		}
+		.nav-active{
+			color: #36f !important;
+		}
+		.dropdown-item{
+			font-family: Cloud_Bold; 
+			color: #ccc;
+		}
+		.dropdown-item:hover{
+			color: #aaa;
+		}
+
+		/* For Phone */
+		@media screen and (min-width: 0px) and (max-width: 980px) {
+			.navbar-brand{ font-size: 40px; }
+			.nav-item{ font-size: 20px; }
+		}
+		/* For Desktop */
+		@media screen and (min-width: 1024px) {
+			.navbar-brand{ font-size: 20px; }
+			.nav-item{ font-size: 20px; }
+		}
+
+		button:focus {outline:0;}
+		/*select{
+    	    -webkit-appearance: none;
+    	    -moz-appearance: none;
+    	    appearance: none;
+    	}
+    	select:focus{ border-style: solid; border-color: #36f; }*/
+
+	</style>
+
+</head>
+<body>
+	<nav class="navbar navbar-expand-sm bg-light navbar-light" style="background-color: #fff !important;">
+		<a class="navbar-brand" href="/admin/" style="font-family: Cloud_Bold;">Smart Mushroom Box - Admin</a>
+	  	<ul class="navbar-nav">
+	  		<!-- <li class="nav-item" id="navi-1"><a class="nav-link" href="{% url 'home' %}">NormalSite</a></li>
+	  		<li class="nav-item" id="navi-2"><a class="nav-link" href="{% url 'admin_home' %}">AdminSite</a></li> -->
+	  		<li class="nav-item"><a id="navi-2" class="nav-link" href="{% url 'admin_home' %}">Home</a></li>
+	  		<li class="nav-item"><a id="navi-3" class="nav-link" href="{% url 'admin_order' %}">Order</a></li>
+	  		<li class="nav-item"><a id="navi-4" class="nav-link" href="{% url 'admin_profile' %}">Profile</a></li>
+	  		<li class="nav-item"><a id="navi-5" class="nav-link" href="{% url 'admin_device' %}">Device</a></li>
+	  	</ul>
+	  	<ul class="navbar-nav ml-auto">
+	  		<li class="nav-item" id="navi-4">
+    			<li class="nav-item dropdown">
+					<a class="nav-link dropdown-toggle" data-toggle="dropdown" href="">{{user.first_name}}</a>
+					<div class="dropdown-menu dropdown-menu-right">
+						<a class="dropdown-item" href="{% url 'information' %}">Profile</a>
+						<a class="dropdown-item" href="{% url 'change_password' %}">Change password</a>
+						<div class="dropdown-divider"></div>
+						<a class="dropdown-item" href="/authen/logout/">Log Out</a>
+					</div>
+				</li>
+	  		</li>
+	  	</ul>
+	</nav>
+
+	{% block content %}
+    {% endblock %}
+</body>
+</html>
