@@ -1,17 +1,22 @@
 char *ap_ssid = "WEMOS";
 char *ap_pass = "";
 
-char wifi_ssid[20] = "";
-char wifi_pass[20] = "";
+char wifi_ssid[21] = "";
+char wifi_pass[21] = "";
 
-char serial[10] = "";
+char serial[11] = "";
 
 void cleanMem(){
   for(int i=0;i<50;i++) EEPROM.write(i,0);
   EEPROM.commit();
-  String("").toCharArray(wifi_ssid, 20);
-  String("").toCharArray(wifi_pass, 20);
-  String("").toCharArray(serial, 10);
+  String("").toCharArray(wifi_ssid, 21);
+  String("").toCharArray(wifi_pass, 21);
+  String("").toCharArray(serial, 11);
+  target_temp = 0;
+  target_humi = 0;
+  target_r = 0;
+  target_g = 0;
+  target_b = 0;
 }
 
 int isAPMode = false;
@@ -35,9 +40,9 @@ void activeRecoveryMode(){
   activeAPMode();
 }
 
-#define mode_button_pin 6
-void mode_button_handle(){
-  if(digitalRead(pin[mode_button_pin]) == true) activeRecoveryMode();
+#define mode_button_pin 4
+void mode_button_handle(){ 
+  if(digitalRead(pin[mode_button_pin]) == false) activeRecoveryMode(); // invert logic
 }
 
 #define reconnect_max_count 25
@@ -76,16 +81,16 @@ bool connectWifi(char *temp_ssid,char *temp_pass){
 
 bool activeClientMode(String temp_ssid,String temp_pass){
   if( temp_ssid != "" && temp_pass != "" ){
-    char temp_ssid2[20];
-    char temp_pass2[20];
-    temp_ssid.toCharArray(temp_ssid2, 20);
-    temp_pass.toCharArray(temp_pass2, 20);
+    char temp_ssid2[21];
+    char temp_pass2[21];
+    temp_ssid.toCharArray(temp_ssid2, 21);
+    temp_pass.toCharArray(temp_pass2, 21);
     Serial.println("[WIFI] Mode : Client");
     WiFi.mode(WIFI_STA);
     isAPMode = false;
     if(connectWifi(temp_ssid2,temp_pass2)){
-      memcpy( wifi_ssid, temp_ssid2, 20*sizeof(char) );
-      memcpy( wifi_pass, temp_pass2, 20*sizeof(char) );
+      memcpy( wifi_ssid, temp_ssid2, 21*sizeof(char) );
+      memcpy( wifi_pass, temp_pass2, 21*sizeof(char) );
       for(int i=0;i<20;i++)EEPROM.write(i,int(temp_ssid[i]));
       for(int i=0;i<20;i++)EEPROM.write(20+i,int(temp_pass[i]));
       EEPROM.commit();
@@ -109,9 +114,9 @@ void handleRoot() {
       temp_pass = server.arg(i).c_str();
     }else if (server.argName(i) == "S") {
       String temp_serial = server.arg(i).c_str();
-      temp_serial.toCharArray(serial, 10);
+      temp_serial.toCharArray(serial, 11);
       for(int i=0;i<10;i++)EEPROM.write(40+i,int(serial[i]));
-      Serial.println("[WIFI] Get serial : "+String(serial));
+      Serial.println("[WIFI] Get serial : "+String(temp_serial)+","+String(serial));
     }
   }
   if( temp_ssid != "" && temp_pass != "" ) server.send(200, "text/html", template_saved());
@@ -129,7 +134,7 @@ void handleRoot() {
 }
 
 void network_init(){
-  pinMode(pin[mode_button_pin],OUTPUT);
+  pinMode(pin[mode_button_pin],INPUT);
   if(EEPROM.read(0) == 0){
     activeAPMode();
   }else{
@@ -143,12 +148,12 @@ void network_init(){
   Serial.println("[HTTP] Server started");
 }
 
+bool isConnect = false;
 void network_handle(){
   server.handleClient();
   mode_button_handle();
   if(!isAPMode){
-    if(WiFi.status() != WL_CONNECTED) pixel(100,0,0);
-    else pixel(0,100,0);
+    isConnect = (WiFi.status() == WL_CONNECTED);
   }
 }
 

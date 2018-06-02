@@ -26,14 +26,34 @@ void setup() {
   network_init();
 }
 
+bool isConnectPrevious = false;
 int counter = 100000;
 void loop() {
   network_handle();
   counter++;
-  if(counter > 20){ // recommand 600 = 60*1000 (every hour) // delay 100
+  
+  if(isConnect != isConnectPrevious){
+    if(isConnect){
+      pixel(0,100,0);
+      Serial.println("[WIFI] Connected");
+      Serial.print("[WIFI] IP   : ");
+      Serial.println(WiFi.localIP());
+      requestToServer();
+    }else{
+      Serial.println("[WIFI] Disconnected");
+      pixel(100,0,0);
+    }
+  }
+  isConnectPrevious = isConnect;
+
+  if(counter > 1200 ){ // delay 100 // 10 time = 1 secound // 600 time = 1 minute
     counter = 0;
+    requestToServer();
+    led(target_r,target_g,target_b);
+    updateCooler();
+  }else if(counter%20 == 0){
     updateDht();
-    Serial.println("[DHT] T:"+String(temp)+" H:"+String(humi));
+    updateHumidifier();
   }
   delay(100);
 }
