@@ -7,7 +7,8 @@ void requestToServer(){
   }
   int httpCode = 0;
   String payload = "";
-  String url = "http://192.168.1.32:8000/mcu/?serial="+String(serial)+"&temp="+String(temp)+"&humi="+String(humi);
+//  String url = "http://192.168.1.32:8000/mcu/?serial="+String(serial)+"&temp="+String(temp)+"&humi="+String(humi);
+  String url = "http://www.smartmushroombox.com/mcu/?serial="+String(serial)+"&temp="+String(temp)+"&humi="+String(humi);
   for(int i=0;(i<5)&&(httpCode!=200);i++){
     http.begin(url);
     httpCode = http.GET();

@@ -39,6 +39,8 @@ void loop() {
       Serial.print("[WIFI] IP   : ");
       Serial.println(WiFi.localIP());
       requestToServer();
+      led(target_r,target_g,target_b);
+      updateCooler();
     }else{
       Serial.println("[WIFI] Disconnected");
       pixel(100,0,0);

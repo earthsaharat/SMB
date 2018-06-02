@@ -1,4 +1,4 @@
-char *ap_ssid = "WEMOS";
+char *ap_ssid = "SMB";
 char *ap_pass = "";
 
 char wifi_ssid[21] = "";
@@ -51,6 +51,7 @@ bool connectWifi(char *temp_ssid,char *temp_pass){
     Serial.println("[WIFI] Connection ERROR : No ssid or pass");
     return false;
   }
+  pixel(100,0,0);
   WiFi.disconnect();
   Serial.println("[WIFI] Disconnected");
   WiFi.begin(temp_ssid, temp_pass);
