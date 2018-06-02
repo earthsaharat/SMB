@@ -276,13 +276,13 @@ def web_mybox_action(request,id):
 	if adevice.user != request.user: return redirect('web_mybox')
 	# Action : Start
 	if adevice.start_date != None: 
-		adevice.start_date = None
+		adevice.start_date = timezone.now()
 		statusSet = adevice.state_set.filter(isEnable=True)
 		for aStatus in statusSet:
 			aStatus.isEnable = False
 			aStatus.save()
 	# Action : Stop
 	else: 
-		adevice.start_date = timezone.now()
+		adevice.start_date = None
 	adevice.save()
 	return redirect('/device/view/'+str(id)+'/')

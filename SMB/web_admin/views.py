@@ -72,13 +72,13 @@ def admin_profile_edit(request,id):
 		for aInstruction in McuModels.Instruction.objects.filter(profile=aprofile):
 			if len(allActions) != 0:
 				anAction = allActions.pop(0)
-				aInstruction.day	= anAction['day']
-				aInstruction.hour	= anAction['hour']
-				aInstruction.temp	= anAction['temp']
-				aInstruction.humi	= anAction['humi']
-				aInstruction.r		= anAction['r']
-				aInstruction.g		= anAction['g']
-				aInstruction.b		= anAction['b']
+				aInstruction.day	= min( max(0,anAction['day']	), 1825	)
+				aInstruction.hour	= min( max(0,anAction['hour']	), 23	)
+				aInstruction.temp	= min( max(0,anAction['temp']	), 100	)
+				aInstruction.humi	= min( max(0,anAction['humi']	), 100	)
+				aInstruction.r		= min( max(0,anAction['r']		), 100	)
+				aInstruction.g		= min( max(0,anAction['g']		), 100	)
+				aInstruction.b		= min( max(0,anAction['b']		), 100	)
 				aInstruction.isEnable = True
 			else:
 				aInstruction.isEnable = False
@@ -86,13 +86,13 @@ def admin_profile_edit(request,id):
 		for anAction in allActions:
 			McuModels.Instruction.objects.create(
 				profile = aprofile,
-				day		= anAction['day'],
-				hour	= anAction['hour'],
-				temp	= anAction['temp'],
-				humi	= anAction['humi'],
-				r		= anAction['r'],
-				g		= anAction['g'],
-				b		= anAction['b'] )
+				day		= min( max(0,anAction['day']	), 1825	),
+				hour	= min( max(0,anAction['hour']	), 23	),
+				temp	= min( max(0,anAction['temp']	), 100	),
+				humi	= min( max(0,anAction['humi']	), 100	),
+				r		= min( max(0,anAction['r']		), 100	),
+				g		= min( max(0,anAction['g']		), 100	),
+				b		= min( max(0,anAction['b']		), 100	) )
 	# data = aprofile.data
 	data = json.dumps( 
 		list(aprofile.instruction_set.filter(isEnable=True).values('day','hour','temp','humi','r','g','b')) )

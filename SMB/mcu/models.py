@@ -61,6 +61,7 @@ class Device(models.Model):
 		return format(min((self.getCurrentTimeInMinute()/self.getAllTimeInMinute())*100,100), '.2f')
 	# MARK : Current Time
 	def getCurrentTime(self):
+		if self.start_date is None: return None
 		currentTime = timezone.now() - self.start_date
 		return {'day'	:currentTime.days,
 				'hour'	:int(currentTime.seconds/(60*60)),
@@ -69,9 +70,11 @@ class Device(models.Model):
 		currentTime = Device.getCurrentTime(self)
 		return str(currentTime['day'])+'D '+str(currentTime['hour'])+'H '+str(currentTime['minute'])+'M'
 	def getCurrentTimeInMinute(self):
+		if self.start_date is None: return None
 		currentTime = timezone.now() - self.start_date
 		return (currentTime.days*24*60)+(int(currentTime.seconds/60)%60)
 	def getCurrentTimeInHour(self):
+		if self.start_date is None: return None
 		currentTime = timezone.now() - self.start_date
 		return (currentTime.days*24)+int(currentTime.seconds/(60*60))
 	# MARK : All Time
@@ -91,9 +94,10 @@ class Device(models.Model):
 		instructions = self.profile.instruction_set.filter(isEnable=True).extra(
 						select={'totalHour': '(day*24)+hour'},order_by = ['-totalHour'])
 		currentHour = Device.getCurrentTimeInHour(self)
-		for anInstruction in instructions:
-			if anInstruction.totalHour <= currentHour:
-				return anInstruction
+		if currentHour is not None:
+			for anInstruction in instructions:
+				if anInstruction.totalHour <= currentHour:
+					return anInstruction
 		return Instruction(profile=self.profile,day=0,hour=0,temp=0,humi=0,r=0,g=0,b=0)
 	def __str__(self):
 		return str(self.serial)+'-'+self.user.username.upper()
@@ -101,8 +105,8 @@ class Device(models.Model):
 class State(models.Model):
 	device 		= models.ForeignKey(Device,on_delete=models.CASCADE)
 	date		= models.DateTimeField(default=timezone.now)
-	temp 		= models.FloatField()
-	humi 		= models.FloatField()
+	temp 		= models.FloatField(default=0)
+	humi 		= models.FloatField(default=0)
 	isEnable	= models.BooleanField(default=True)
 	def __str__(self):
 		return str(self.device)+'@'+timezone.localtime(self.date).strftime("%H:%M-%d/%m/%Y")

@@ -247,7 +247,7 @@
  			table.innerHTML += '\
 				<tr>\
 					<td><input type="number" placeholder="Day"  class="my-tb" value=\"'+data[i]['day']+
-						'\" oninput="edit('+i+',\'0\',this.value)" style="color:#fc9" min=0></td>\
+						'\" oninput="edit('+i+',\'0\',this.value)" style="color:#fc9" min=0 max=1825></td>\
 					<td><input type="number" placeholder="Hour" class="my-tb" value=\"'+data[i]['hour']+
 						'\" oninput="edit('+i+',\'1\',this.value)" style="color:#fc9" min=0 max=23></td>\
 					<td><input type="number" placeholder="Temp" class="my-tb" value=\"'+data[i]['temp']+
@@ -255,11 +255,11 @@
 					<td><input type="number" placeholder="Humi" class="my-tb" value=\"'+data[i]['humi']+
 						'\" oninput="edit('+i+',\'3\',this.value)" style="color:#f96" min=0 max=100></td>\
 					<td><input type="number" placeholder="R"    class="my-tb" value=\"'+data[i]['r']+
-						'\" oninput="edit('+i+',\'4\',this.value)" style="color:#f99" min=0 max=255></td>\
+						'\" oninput="edit('+i+',\'4\',this.value)" style="color:#f99" min=0 max=100></td>\
 					<td><input type="number" placeholder="G"    class="my-tb" value=\"'+data[i]['g']+
-						'\" oninput="edit('+i+',\'5\',this.value)" style="color:#8e8" min=0 max=255></td>\
+						'\" oninput="edit('+i+',\'5\',this.value)" style="color:#8e8" min=0 max=100></td>\
 					<td><input type="number" placeholder="B"    class="my-tb" value=\"'+data[i]['b']+
-						'\" oninput="edit('+i+',\'6\',this.value)" style="color:#99f" min=0 max=255></td>\
+						'\" oninput="edit('+i+',\'6\',this.value)" style="color:#99f" min=0 max=100></td>\
 					<td class="text-c"><p class="my-table-button">\
 						<i class="fa fa-close" style="color:#36f; cursor:pointer;" onclick="remove('+i+')"></i>\
 					</p></td>\
@@ -269,7 +269,8 @@
  	}
 
  	function edit(index,keyBIndex,value){
- 		data[index][keyB[keyBIndex]] = parseInt(value)
+ 		if(keyBIndex == 2 || keyBIndex == 3) data[index][keyB[keyBIndex]] = parseFloat(value)
+ 		else data[index][keyB[keyBIndex]] = parseInt(value)
  		checkErrorAt(index,keyBIndex)
  		// console.log(data)
  		// render()
@@ -285,7 +286,7 @@
  				'r':lastData['r'],
  				'g':lastData['g'],
  				'b':lastData['b']})
- 		}else data.push({'day':0,'hour':0,'temp':0,'humi':0,'r':100,'g':0,'b':0})
+ 		}else data.push({'day':0,'hour':0,'temp':0,'humi':0,'r':0,'g':0,'b':0})
  		render()
  	}
  	function remove(index){
@@ -335,9 +336,9 @@
 		else if(j == 1) isError = isOutOfRange(value,0, 23,j,i) // Hour
 		else if(j == 2) isError = isOutOfRange(value,0,100,j,i) // Temp
 		else if(j == 3) isError = isOutOfRange(value,0,100,j,i) // Humi
-		else if(j == 4) isError = isOutOfRange(value,0,255,j,i) // R
-		else if(j == 5) isError = isOutOfRange(value,0,255,j,i) // G
-		else if(j == 6) isError = isOutOfRange(value,0,255,j,i) // B
+		else if(j == 4) isError = isOutOfRange(value,0,100,j,i) // R
+		else if(j == 5) isError = isOutOfRange(value,0,100,j,i) // G
+		else if(j == 6) isError = isOutOfRange(value,0,100,j,i) // B
 		if(!isError) mainErrorMsg("")
 		// else console.log(value)
 		return isError
