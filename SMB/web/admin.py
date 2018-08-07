@@ -11,5 +11,5 @@ class ItemAdmin(admin.ModelAdmin):
 admin.site.register(models.Item,ItemAdmin)
 
 class OrderAdmin(admin.ModelAdmin):
-    list_display = ('id','user','date','address','items','status')
+    list_display = ('id','user','date','items','status','image')
 admin.site.register(models.Order,OrderAdmin)

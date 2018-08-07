@@ -21,12 +21,11 @@ class Order(models.Model):
 	user 		= models.ForeignKey('auth.User',on_delete=models.CASCADE)
 	image 		= models.ImageField(upload_to='img-slip/',blank=True, null=True)
 	date		= models.DateTimeField(default=timezone.now)
-	address		= models.TextField(blank=True, null=True)
 	items		= models.TextField(default='[]')
 	status_choice = (
 		('0', 'รอการชำระเงิน'),
 		('1', 'รอตรวจสอบการชำระเงิน'),
-		('2', 'กำลังจัดส่ง') )
+		('2', 'จัดส่งแล้ว') )
 	status	 	= models.CharField(max_length=1, choices=status_choice)
 	def __str__(self):
 		return self.user

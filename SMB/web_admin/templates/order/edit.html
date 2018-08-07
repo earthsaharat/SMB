@@ -1,0 +1,159 @@
+{% extends 'admin_base.html' %}
+{% load staticfiles %}
+{% block content %}
+
+	<script type="text/javascript"> document.getElementById('navi-3').classList.add("nav-active")</script>
+
+	<style type="text/css">
+		a:hover{ text-decoration: none; color: #666 !important; cursor: pointer;}
+		p{ margin: 0px; }
+
+		.text-r{ text-align: right; }
+		.text-c{ text-align: center; }
+		.text-l{ text-align: left; }
+
+		.my-card{
+			background-color: #fff;
+			box-shadow: 0px 5px 15px #ddd;
+		}
+		.my-img{
+			/*width: 80px;*/	
+			width: 100%;	
+			vertical-align: middle;
+			/*height: 100%;
+			object-fit: contain;*/
+		}
+
+		.table{
+			border-style: none;
+		}
+		.table-img{
+			width: 80px;	
+		}
+
+		.my-selector{ border-style: none; width: 100%; color: #999; background-color: #fff; }
+		.my-selector:focus{  }
+
+		.my-textbox{ border-style: none; width: 100%; color: #999; padding: 0px;}
+		input:focus { outline:0; }
+		.my-textbox::placeholder { /* Firefox */ color: #ccc; }
+		.my-textbox:-ms-input-placeholder { /* Internet Explorer 10-11 */ color: #ccc; }
+		.my-textbox::-ms-input-placeholder { /* Microsoft Edge */ color: #ccc; }
+
+		.my-nav-2{ background-color: #fff; }
+
+		.my-text{ color: #333; }
+
+		.my-view-mode{ color: #000; }
+		.my-view-mode:hover{ color: #36f; cursor: pointer; }
+
+		.table-responsive{
+			background-color: #fff;
+			box-shadow: 0px 5px 15px #ddd;
+			padding: 20px;
+		}
+		.my-table-head{ color: #aaa; }
+		.my-table-body{ color: #666; }
+		/* For Phone */
+		/*@media screen and (max-width: 640px) {
+		}*/
+		/* For Phone */
+		@media screen and (min-width: 0px) and (max-width: 980px) {
+			.my-nav-2{ padding: 0px 40px 10px 20px; /* T R B L */ }
+			.my-container{ padding: 20px; }
+			.my-title-text{ font-size: 80px; }
+
+			.my-card-body{ padding: 60px; }
+			.my-text{ font-size: 40px; line-height: 50px; }
+
+			.my-textbox,.my-selector{ font-size: 30px; }
+		}
+		/* For Desktop */
+		@media screen and (min-width: 1024px) {
+			.my-nav-2{ padding: 0px 25px 10px 18px; /* T R B L */ }
+			.my-container{ padding: 20px 60px 60px 60px; }
+			.my-title-text{ font-size: 25px; }
+
+			.my-card-body{ padding: 20px; }
+			.my-text{ font-size: 25px; line-height: 30px; }
+
+			.my-textbox,.my-selector{ font-size: 20px; }
+		}
+
+		.col-12{ padding: 20px; }
+		.fa{ color: #333; }
+		.fa:hover,.my-summit-button{ color: #36f; cursor: pointer; }
+		.my-hide{ display: none; }
+
+
+		.t1{ color: #999; text-align: right; }
+	</style>
+
+<!-- <div class="my-nav-2">
+	<div class="row">
+		<div class="col-8"><p class="my-title-text">Device<p></div>
+		<p class="col-4 text-r my-title-text"><a href="/admin/device/edit/9999999/">Add</a></p>
+	</div>
+</div> -->
+	<div class="my-nav-2">
+		<div class="row">
+			<div class="col-8"><p class="my-title-text"><a class="my-back" href="/admin/order/"><i class="fa fa-chevron-left"></i></a> <span id="name-label"> Order</span></p></div>
+			<p class="col-4 text-r my-title-text my-summit-button" onclick="window.open('/admin/order/finish/{{id}}/','_self')">Confirm</p>
+		</div>
+	</div>
+
+	<div class="my-container">
+		<div class="table-responsive">
+			<!-- <table class="table table-borderless table-sm"> -->
+			<table class="table table-sm">
+				<thead class="my-table-head">
+					<tr>
+						<th>Item</th>
+						<th>Detail</th>
+						<th>Price</th>
+					</tr>
+				</thead>
+				<tbody class="my-table-body" id="table">
+					{% for i in items %}
+					<tr>
+						<td>{{ i.name }}</td>
+						<td>{{ i.detail }}</td>
+						<td>{{ i.price }}</td>
+					</tr>
+					{% endfor %}
+					<tr>
+						<td></td>
+						<td></td>
+						<td></td>
+					</tr>
+					<tr>
+						<td>Ordered {{ date }}</td>
+						<td>Total</td>
+						<td style="color: #f66;">{{ total }}</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+		<br>
+		<div class="my-card" style="padding: 2vmin;">
+			<div style="width: 47%; display: inline-block;"><p class="t1">Ordered</p></div>
+			<div style="width: 1%; display: inline-block;"></div>
+			<div style="width: 45%; display: inline-block;"><p class="text-l">{{ date }}</p></div>
+
+			<div style="width: 47%; display: inline-block;"><p class="t1">User</p></div>
+			<div style="width: 1%; display: inline-block;"></div>
+			<div style="width: 45%; display: inline-block;"><p class="text-l">{{ user }}</p></div>
+		</div>
+		<br>
+		<div class="my-card">
+			{% if image != "" %}
+				<img src="/media/{{image}}" style="width: 90vmin; margin: auto; padding: 5vmin; display: block;">
+			{% else %}
+				<p style="padding: 1vmin; text-align: center;">Slip not found</p>
+			{% endif %}
+		</div>
+
+	</div>
+
+
+{% endblock %}

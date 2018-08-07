@@ -37,10 +37,70 @@ def admin_home(request):
 @login_required
 @user_passes_test(admin_check)	
 def admin_order(request):
-	orders = []
-	for aorder in WebModels.Order.objects.all():
-		orders.append({})
-	return render(request,'order/home.html',{'orders':orders})
+	orders_data = []
+	orders = WebModels.Order.objects.all()
+	for order in orders:
+		items = []
+		total = 0
+		for item_id in json.loads(order.items):
+			try:
+				aItem = WebModels.Item.objects.get(id=item_id)
+				itemStr = aItem.group.name+" - "+aItem.name
+				total += int(aItem.cost)
+			except Exception as e:
+				itemStr = "Item not found"
+			items.append(itemStr)
+		orders_data.append({
+			'id':order.id,
+			'date':McuViews.dateTimeStr(order.date),
+			'items':items,
+			'status_raw':order.status,
+			'status':order.get_status_display(),
+			'total':total,
+			'user':order.user
+			})
+	orders_data.reverse()
+	return render(request,'order/home.html',{'data':orders_data})
+
+@login_required
+@user_passes_test(admin_check)
+def admin_order_edit(request,id):
+	items = []
+	total = 0
+	try:
+		order = WebModels.Order.objects.get(id=id)
+		for item_id in json.loads(order.items):
+			try:
+				aItem = WebModels.Item.objects.get(id=item_id)
+				items.append({
+					'name':aItem.group.name,
+					'detail':aItem.name,
+					'price':int(aItem.cost)})
+				total += int(aItem.cost)
+			except Exception as e:
+				itemStr = "Item not found (id="+id+")"
+		return render(request,'order/edit.html',{
+			'items'	: items,
+			'total'	: total,
+			'date'	: McuViews.dateTimeStr(order.date),
+			'image'	: str(order.image),
+			'user'	: order.user,
+			'id'	: id,
+			})
+	except Exception as e:
+		return redirect(admin_order)
+	return redirect(admin_order)
+
+@login_required
+@user_passes_test(admin_check)
+def admin_order_finish(request,id):
+	try:
+		order = WebModels.Order.objects.get(id=id)
+		order.status = 2
+		order.save()
+	except Exception as e:
+		return redirect(admin_order)
+	return redirect(admin_order)
 
 @login_required
 @user_passes_test(admin_check)	
@@ -65,7 +125,7 @@ def admin_profile_edit(request,id):
 		aprofile.name 	= request.POST['name']
 		if 'imageInput' in request.FILES:
 			aprofile.image 	= request.FILES['imageInput']
-		# aprofile.data = json.dumps(sorted(allActions,key=lambda k:int(k['hour'])+int(k['day'])*24))
+	# aprofile.data = json.dumps(sorted(allActions,key=lambda k:int(k['hour'])+int(k['day'])*24))
 		aprofile.save()
 		allActions = json.loads(request.POST['content'])
 		allActions = sorted(allActions,key=lambda k:int(k['hour'])+int(k['day'])*24)
@@ -95,8 +155,10 @@ def admin_profile_edit(request,id):
 				b		= min( max(0,anAction['b']		), 100	) )
 	# data = aprofile.data
 	data = json.dumps( 
-		list(aprofile.instruction_set.filter(isEnable=True).values('day','hour','temp','humi','r','g','b')) )
-	return render(request,'profile/edit.html',{'name':aprofile.name,'data':data,'image':aprofile.image})
+		list(aprofile.instruction_set.filter(isEnable=True).values(
+			'day','hour','temp','humi','r','g','b')) )
+	return render(request,'profile/edit.html',{'name':aprofile.name,
+		'data':data,'image':aprofile.image})
 
 @login_required
 @user_passes_test(admin_check)	
@@ -127,7 +189,8 @@ def admin_device(request):
 						'status'		:'None',
 						'start_date'	:McuViews.dateTimeStr(adevice.start_date),
 						'current_time'	:adevice.getCurrentTimeStr(),
-						'last_update'	:timezone.localtime(adevice.getStatus()['date']).strftime("%H:%M %d/%m/%Y"),
+						'last_update'	:timezone.localtime(
+							adevice.getStatus()['date']).strftime("%H:%M %d/%m/%Y"),
 						'day'			:day })
 	return render(request,'device/home.html',{'data':datas})
 
@@ -196,10 +259,12 @@ def admin_device_edit(request,id):
 					'name':adevice.name,
 					'user':adevice.user.id,
 					'profile':adevice.profile.id,
-					'start_date':timezone.localtime(adevice.start_date).strftime("%Y-%m-%dT%H:%M"),
+					'start_date':timezone.localtime(
+						adevice.start_date).strftime("%Y-%m-%dT%H:%M"),
 					'status':'ready' }
 	
-	return render(request,'device/edit.html',{'data':data,'alluser':allUser,'allprofile':allProfile})
+	return render(request,'device/edit.html',
+		{'data':data,'alluser':allUser,'allprofile':allProfile})
 
 @login_required
 @user_passes_test(admin_check)	

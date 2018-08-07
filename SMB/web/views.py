@@ -27,6 +27,7 @@ from colorsys import rgb_to_hls
 
 from mcu import models as McuModels
 from web import models as WebModels
+from authentication import models as AuthModels
 
 from mcu import views as McuViews
 
@@ -64,7 +65,7 @@ def web_contact(request):
 	# return render(request, 'old/moredetail.html')
 
 def web_product(request):
-	return redirect('/')
+	# return redirect('/')
 	# groupItems = models.GroupItem.objects.all()
 	# try:
 	# 	anOrder = models.Order.objects.get(user=request.user)
@@ -84,6 +85,100 @@ def web_product(request):
 	# 			'cost':int(item.cost),
 	# 			'selected': item.id in json.loads(anOrder.items) if anOrder != None else False })
 	# return render(request, 'web_product.html',{'data':data,'total':int(total)})
+
+	data = {}
+
+	groupItems = WebModels.GroupItem.objects.all()
+	for group in groupItems:
+		items = []
+		for item in group.item_set.all():
+			items.append({'id':item.id,'name':item.name,'price':int(item.cost)})
+		data[group.name] = items
+	return render(request, 'web_product.html',{'data':data,'data_json':json.dumps(data)})
+
+@login_required
+def web_order(request):
+	orders_data = []
+	orders = WebModels.Order.objects.filter(user=request.user)
+	for order in orders:
+		items = []
+		for item_id in json.loads(order.items):
+			try:
+				aItem = WebModels.Item.objects.get(id=item_id)
+				itemStr = aItem.group.name+" - "+aItem.name
+			except Exception as e:
+				itemStr = "Item not found"
+			items.append(itemStr)
+		orders_data.append({
+			'id':order.id,
+			'date':McuViews.dateTimeStr(order.date),
+			'items':items,
+			'status_raw':order.status,
+			'status':order.get_status_display()
+			})
+	orders_data.reverse()
+	return render(request,'web_order.html',{'orders':orders_data})
+
+@login_required
+def web_order_confirm(request):
+	try:
+		items_id = json.loads(request.GET['items'])
+		items = []
+		total = 0
+		for item_id in items_id:
+			try:
+				aItemModel = WebModels.Item.objects.get(id=item_id)
+				items.append({
+					'name':aItemModel.group.name,
+					'subname':aItemModel.name,
+					'price':int(aItemModel.cost)
+					})
+				total += int(aItemModel.cost)
+			except Exception as e:
+				return redirect(web_product)
+		return render(request,'web_product_confirm.html',{
+			'items':items,'total':total,
+			'address':AuthModels.Customer.objects.get(user=request.user).address,
+			'items_json':request.GET['items'] })
+	except:
+		return redirect(web_product)
+	return redirect(web_product)
+
+@login_required
+def web_order_add(request):
+	try:
+		order = WebModels.Order.objects.create(user=request.user,items=request.GET['items'],status='0')
+	except Exception as e:
+		redirect(web_product)
+	return redirect(web_order)
+
+@login_required
+def web_order_payment(request):
+	try:
+		order = WebModels.Order.objects.get(id=request.GET['id'],user=request.user)
+		items = []
+		total = 0
+		for item_id in json.loads(order.items):
+			try:
+				aItem = WebModels.Item.objects.get(id=item_id)
+				items.append({
+					'name':aItem.group.name,
+					'subname':aItem.name,
+					'price':int(aItem.cost)
+					})
+				total += int(aItem.cost)
+			except Exception as e:
+				return redirect(web_order)
+		if request.method == 'POST':
+			if 'imageInput' in request.FILES:
+				order.image 	= request.FILES['imageInput']
+				order.status 	= '1'
+				order.save()
+				return redirect(web_order)
+	except Exception as e:
+		return redirect(web_order)
+	return render(request,'web_order_payment.html',{'items':items,'total':total,
+		'address':AuthModels.Customer.objects.get(user=request.user).address})
 
 def web_profile(request):
 	profiles = []

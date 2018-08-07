@@ -1,0 +1,109 @@
+{% extends 'web_base.html' %}{% block content %}{% load static %}
+
+<script type="text/javascript"> document.getElementById('nav-item-2').classList.add("active")</script>
+
+<style type="text/css">
+
+
+    button#hover-button span#a { display: inline; }
+    button#hover-button:hover span#a { display: none; }
+    button#hover-button span#b { display: none; }
+    button#hover-button:hover span#b { display: inline; }
+
+    .box-order{
+        margin: 0vw; 
+        padding-top: 12vh; padding-bottom: 0px; text-align: center;
+    }
+    .box-order-content{
+        border-style: solid;
+        border-width: 2px;
+        border-color: #ccc;
+    }
+    .box-group{
+        padding: 5vw; padding-top: 5vh; padding-bottom: 0px; text-align: center;
+    }
+
+    .box-set{
+        padding: 5vmin;
+        border-width: 2px;
+        border-style: solid;
+        border-color: transparent;
+        cursor: pointer;
+    }
+    .box-set:hover{
+        border-color: #ccc !important;
+        color: #666 !important;
+    }
+
+    .t0{    font-size: 4vmin;  line-height: 8vmin; text-align: center;color: #999; font-weight: bold; letter-spacing: 1px; padding-bottom: 5vmin; }
+    .t0-1{    font-size: 3vmin;  line-height: 4vmin; text-align: left;color: #999; font-weight: bold; letter-spacing: 1px; margin-bottom: 1vmin;}
+
+    .t-order-total{ font-size: 4vmin; padding: 2vmin; }
+    .t-order-next{  font-size: 3vmin; background-color: #999; color: #fff; padding: 2vmin; margin: 0px; font-weight: bold; cursor: pointer; text-align: center; }
+    .t-order-next:hover{ background-color: #ff8000; }
+
+    .t1{  font-size: 3vmin; text-align: left; }
+    .t2{  font-size: 4vmin; text-align: left; }
+
+    textarea{
+        width: 100%;
+        border-width: 2px;
+        font-size: 3vmin;
+    }
+    textarea:focus{ outline: none; border-color: #ff8000; }
+
+    a{ color: #ff8000; }
+    a:hover{ color: #ff8000; }
+
+</style>
+
+<div class="container">
+    <div class="row box-group" style="width: 80%; margin: auto;">
+        <p class="col-12 t0">Order confirmation - <span class="thai_font">ยืนยันการสั่งซื้อ</span></p>
+        <table class="table">
+            <thead class="t1">
+                <tr>
+                    <th>Item</th>
+                    <th>Detail</th>
+                    <th>Price</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for item in items %}
+                <tr>
+                    <td class="t2">{{ item.name }}</td>
+                    <td class="t2">{{ item.subname }}</td>
+                    <td class="t2">{{ item.price}}฿</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <div style="width: 69%; margin: auto; padding-top: 5vmin; margin-bottom: 5vmin;">
+        <p class="t0-1">Address</p>
+        <p class="t1 thai_font" style="margin: 0px;">{{address}} <a href="/account/info/">change</a></p>
+    </div>
+
+    <div>
+        <div class="row" style="width: 50%; padding-top: 5vmin; margin: auto;">
+            <div class="col-xs-8">
+                <p class="t-order-total"><span style="font-weight: bold;">Total</span> <span id="total">{{total}}</span> Bath</p>
+            </div>
+            <div class="col-xs-4">
+                <p class="t-order-next" id="total-next" onclick="window.open('/order/add/?items={{items_json}}','_self') ">Confirm</p>
+            </div>
+        </div>
+    </div>
+
+
+</div>
+
+<script type="text/javascript">
+
+
+
+</script>
+
+<br><br><br>
+{% endblock %}

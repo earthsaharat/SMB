@@ -3,119 +3,250 @@
 <script type="text/javascript"> document.getElementById('nav-item-2').classList.add("active")</script>
 
 <style type="text/css">
-    .my-card{
-        padding: 1vw;
-        /*background-color: #f9f9f9;*/
-    }
-    .my-card-head{
-        text-align: center; 
-        font-size: 5vmin; 
-        margin-bottom: 2vmin; 
-        /*font-weight: bold;*/
-    }
-    .my-card-title{
-        text-align: center;
-        font-size: 5vmin;
-        line-height: 6vmin;
-        margin: 0px;
-        /*color: #f93;*/
-        font-weight: bold;
-    }
-    .my-card-detail{
-        text-align: center;
-        font-size: 1.8vmin;
-        line-height: 2.5vmin;
-        margin: 0px;
-    }
-    .my-sub-card{
-        padding: 0.5vw;
-        width: 100%;
-        background-color: #1A1A1A;
-        color: #fff;
-    }
-    .my-sub-card:hover{
-        background-color: #ff8000;
-        color: #fff;
-    }
-    .my-sub-card-active{
-        padding: 0.5vw;
-        width: 100%;
-        background-color: #ff8000;
-        color: #fff;
-    }
 
-    .my-button{
-        width: 100%;
-        height: 12vmin;
-        background-color: #333;
-        font-size: 5vmin;
-        font-weight: bold;
-        color: #fff;
-        border-style: none;
-    }
-    .my-button:hover{ background-color: #ff8000; }
-    .my-button:active{ outline-width: 0px; }
-    .my-total-text{
-        font-size: 5vmin; 
-        font-weight: bold; 
-        padding: 0px;
-        margin: 0px;
-        line-height: 12vmin;
-        color: #000;
-    }
 
     button#hover-button span#a { display: inline; }
     button#hover-button:hover span#a { display: none; }
     button#hover-button span#b { display: none; }
     button#hover-button:hover span#b { display: inline; }
+
+    .box-order{
+        margin: 0vw; 
+        padding-top: 12vh; padding-bottom: 0px; text-align: center;
+    }
+    .box-order-content{
+        border-style: solid;
+        border-width: 2px;
+        border-color: #ccc;
+    }
+    .box-group{
+        padding: 10vw; padding-top: 5vh; padding-bottom: 0px; text-align: center;
+    }
+
+    .box-set{
+        padding: 5vmin;
+        border-width: 2px;
+        border-style: solid;
+        border-color: transparent;
+        cursor: pointer;
+    }
+    .box-set:hover{
+        border-color: #ccc !important;
+        color: #666 !important;
+    }
+
+    .t0{    font-size: 3vmin;  line-height: 8vmin; text-align: center;color: #999; font-weight: bold; letter-spacing: 1px; }
+    .t1{    font-size: 10vmin; line-height: 10vmin; }
+    .t1-1{  font-size: 6vmin; line-height: 10vmin; letter-spacing: 5px; }
+    .t2{    font-size: 1.8vmin; line-height: 2.5vmin; color: #999; margin: 0px; }
+    .t3{    font-size: 3.5vmin; line-height: 1vmin; margin-bottom: 6vmin; }
+
+    .t-order-total{ font-size: 4vmin; padding: 2vmin; }
+    .t-order-next{  font-size: 3vmin; background-color: #999; color: #fff; padding: 2vmin; margin: 0px; font-weight: bold; cursor: pointer; text-align: center; }
+    .t-order-next:hover{ background-color: #ff8000; }
 </style>
 
 <div class="container">
-    <div class="row" style="padding: 1.5vw;">
-        {% for key,value in data.items %}
-        <div class="col-xs-3 my-card">
-            <div class="row">
-                <div class="col-xs-12">
-                    <p class="thai_font my-card-head">{{key}}</p>
-                    <img class="my-card-img" src='/media/{{value.image}}' style="">
-                </div>
-            </div>
-            <div class="row my-card" style="padding: 0px;">
-                <div class="col-xs-12">
-                    {% for item in value.item %}
-                        {% if value.item|length == 1 %}     <div class="col-xs-12" style="padding: 0px;">
-                        {% elif value.item|length == 2 %}   <div class="col-xs-6" style="padding: 0px;">
-                        {% elif value.item|length == 3 %}   <div class="col-xs-4" style="padding: 0px;">
-                        {% endif %}
-
-                        {% if item.selected %}
-<!--                             <button class="my-sub-card-active uk-button" onclick="window.open('addremove/{{item.id}}','_self')">
- -->                     {% else %}
-                        {% endif %}
-                        <!-- <button class="my-sub-card uk-button" onclick="window.open('addremove/{{item.id}}','_self')"> -->
-                        <button class="my-sub-card uk-button">
-                            <p class="thai_font my-card-title">{{item.name}}</p>
-                            <p class="thai_font my-card-detail">{{item.cost}} Bath</p>
-                        </button>
-                    </div>
-                    {% endfor %}
-                </div>
+    <div class="row box-group">
+        <p class="col-12 t0">Choose package</p>
+        
+        <div class="col-sm-4 box-set" id="set-0" onclick="set_select_action(0)">
+            <p class="t1">S</p>
+            <p class="t3">{{ data.package.0.price }}฿</p>
+            <p class="t2">Cooler Size</p>
+            <p class="t2">1.6 Cubic</p>
+        </div><div class="col-sm-4 box-set" id="set-1" onclick="set_select_action(1)">
+            <p class="t1">M</p>
+            <p class="t3">{{ data.package.1.price }}฿</p>
+            <p class="t2">Cooler Size</p>
+            <p class="t2">6 Cubic</p>
+        </div><div class="col-sm-4 box-set" id="set-2" onclick="set_select_action(2)">
+            <p class="t1-1">CUSTOM</p>
+            <p class="t3">...</p>
+            <p class="t2">Cooler Size</p>
+            <p class="t2">Custom</p>
+        </div>
+    </div>
+    <div id="custom-view">
+        <div class="row box-group">
+            <p class="col-12 t0">Controller - <span class="thai_font">ชุดควบคุม</span></p>
+            <div class="col-sm-6 box-set" id="controller-0" onclick="controller_select_action(0)">
+                <p class="t1 thai_font">ไม่รับ</p>
+                <p class="t3">0฿</p>
+            </div><div class="col-sm-6 box-set" id="controller-1" onclick="controller_select_action(1)">
+                <p class="t1 thai_font ">รับ</p>
+                <p class="t3">{{ data.controller.0.price }}฿</p>
             </div>
         </div>
-        {% endfor %}
-
-    </div>
-    <div class="row" style="padding: 1.5vw;">
-        <div class="col-xs-10" style="background-color: #fff;">
-            <p class="thai_font" style="color: #000; font-size: 20px;"></p>
+        <div class="row box-group">
+            <p class="col-12 t0">Humidifier - <span class="thai_font">ระบบทำความชื้น</span></p>
+            <div class="col-sm-3 box-set" id="humidifier-0" onclick="humidifier_select_action(0)">
+                <p class="t1 thai_font">ไม่รับ</p>
+                <p class="t3">0฿</p>
+            </div><div class="col-sm-3 box-set" id="humidifier-1" onclick="humidifier_select_action(1)">
+                <p class="t1 thai_font ">S</p>
+                <p class="t3">{{ data.humidifier.0.price }}฿</p>
+            </div><div class="col-sm-3 box-set" id="humidifier-2" onclick="humidifier_select_action(2)">
+                <p class="t1 thai_font ">M</p>
+                <p class="t3">{{ data.humidifier.1.price }}฿</p>
+            </div><div class="col-sm-3 box-set" id="humidifier-3" onclick="humidifier_select_action(3)">
+                <p class="t1 thai_font ">L</p>
+                <p class="t3">{{ data.humidifier.2.price }}฿</p>
+            </div>
         </div>
-        <div class="col-xs-2">
-<!--             <button class="my-sub-card uk-button" onclick=""></button>
- -->        </div>
+        <div class="row box-group">
+            <p class="col-12 t0">Light - <span class="thai_font">แสงสว่าง</span></p>
+            <div class="col-sm-4 box-set" id="light-0" onclick="light_select_action(0)">
+                <p class="t1 thai_font">ไม่รับ</p>
+                <p class="t3">0฿</p>
+            </div><div class="col-sm-2 box-set" id="light-1" onclick="light_select_action(1)">
+                <p class="t1 thai_font ">S</p>
+                <p class="t3">{{ data.light.0.price }}฿</p>
+            </div><div class="col-sm-2 box-set" id="light-2" onclick="light_select_action(2)">
+                <p class="t1 thai_font ">M</p>
+                <p class="t3">{{ data.light.1.price }}฿</p>
+            </div><div class="col-sm-2 box-set" id="light-3" onclick="light_select_action(3)">
+                <p class="t1 thai_font ">L</p>
+                <p class="t3">{{ data.light.2.price }}฿</p>
+            </div><div class="col-sm-2 box-set" id="light-4" onclick="light_select_action(4)">
+                <p class="t1 thai_font ">XL</p>
+                <p class="t3">{{ data.light.3.price }}฿</p>
+            </div>
+        </div>
     </div>
+
+    <div>
+        <div class="row" style="width: 50%; padding-top: 10vmin; margin: auto;">
+            <div class="col-xs-8">
+                <p class="t-order-total"><span style="font-weight: bold;">Total</span> <span id="total">0</span> Bath</p>
+            </div>
+            <div class="col-xs-4">
+                <p class="t-order-next" id="total-next" onclick="next_action()">Next</p>
+            </div>
+        </div>
+    </div>
+
+   <!--  <div class="box-order">
+        <p class="t0" style="text-align: left; margin: 0px; letter-spacing: 0px;">Your order</p>
+        <div class="row box-order-content" style="margin: 0px;">
+            <div class="col-xs-1" style="background-color: #ccc; padding: 3vmin; "><img src="{% static 'images/shopping-basket.png' %}" style=""></div>
+            <div class="col-xs-9"></div>
+            <div class="col-xs-2" style="margin: 0px; padding: 3vmin;"><p class="t-order-next">Next</p></div>
+        </div>
+    </div> -->
+
+
 </div>
 
-<!-- <button class="my-button thai_font" id="hover-button"><span id="a">{{total}} Bath</span><span id="b">BUY</span></button> -->
+<script type="text/javascript">
+    custom_hide()
+    function custom_show(){
+        document.getElementById("custom-view").style.display = "block"
+    }
+    function custom_hide(){
+        document.getElementById("custom-view").style.display = "none"
+    }
+
+    function select(elementId){
+        document.getElementById(elementId).style.borderColor = "#ff8000"
+        document.getElementById(elementId).style.color = "#ff8000"
+    }
+    function deselect(elementId){
+        document.getElementById(elementId).style.borderColor = "#fff"
+        document.getElementById(elementId).style.color = "#000"
+    }
+    // let data2 = {
+    //     'package':[
+    //         {'id':1,'name':'S','price':8000},
+    //         {'id':2,'name':'M','price':12000}
+    //     ],'controller':[
+    //         {'id':3,'name':'get','price':3500}
+    //     ]
+    // }
+    var data = JSON.parse('{{ data_json | escapejs }}');
+
+
+    var set_select = 0
+    function set_select_action(index){
+        if(index>2) index = 2
+        set_select = index
+        for(var i=0;i<3;i++) deselect("set-"+i)
+        select("set-"+index)
+        if(index==2) custom_show()
+        else{
+            custom_hide()
+            controller_select_action(0)
+            humidifier_select_action(0)
+            light_select_action(0)
+        }
+        update_total()
+    }
+
+    var controller_select = 0
+    controller_select_action(0)
+    function controller_select_action(index){
+        if(index>1) index = 1
+        controller_select = index
+        for(var i=0;i<2;i++) deselect("controller-"+i)
+        select("controller-"+index)
+        update_total()
+    }
+
+    var humidifier_select = 0
+    humidifier_select_action(0)
+    function humidifier_select_action(index){
+        if(index>3) index = 3
+        humidifier_select = index
+        for(var i=0;i<4;i++) deselect("humidifier-"+i)
+        select("humidifier-"+index)
+        update_total()
+    } 
+
+    var light_select = 0
+    light_select_action(0)
+    function light_select_action(index){
+        if(index>4) index = 4
+        light_select = index
+        for(var i=0;i<5;i++) deselect("light-"+i)
+        select("light-"+index)
+        update_total()
+    }
+
+    var total = 0
+    var items_list = []
+    function update_total(){
+        if(set_select<2){
+            total = data['package'][set_select]['price']
+            items_list = [data['package'][set_select]['id']]
+        }else{
+            total = 0
+            items_list = []
+            if(controller_select != 0) {
+                total += data['controller'][controller_select-1]['price']
+                items_list.push(data['controller'][controller_select-1]['id'])
+            }if(humidifier_select != 0) { 
+                total += data['humidifier'][humidifier_select-1]['price']
+                items_list.push(data['humidifier'][humidifier_select-1]['id'])
+            }if(light_select      != 0) { 
+                total += data['light'     ][light_select     -1]['price']
+                items_list.push(data['light'][light_select-1]['id'])
+            }
+        }
+        document.getElementById('total').innerHTML = total
+
+        if(total==0) document.getElementById('total-next').style.display = 'none'
+        else document.getElementById('total-next').style.display = 'block'
+
+        console.log(items_list)
+    }
+
+    set_select_action(0)
+    function next_action(){
+        var item_str = ""
+        window.open('/order/confirm/?items='+JSON.stringify(items_list),'_self')
+    }
+
+</script>
 
 <br><br><br>
 {% endblock %}

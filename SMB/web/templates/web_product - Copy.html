@@ -1,0 +1,121 @@
+{% extends 'web_base.html' %}{% block content %}{% load static %}
+
+<script type="text/javascript"> document.getElementById('nav-item-2').classList.add("active")</script>
+
+<style type="text/css">
+    .my-card{
+        padding: 1vw;
+        /*background-color: #f9f9f9;*/
+    }
+    .my-card-head{
+        text-align: center; 
+        font-size: 5vmin; 
+        margin-bottom: 2vmin; 
+        /*font-weight: bold;*/
+    }
+    .my-card-title{
+        text-align: center;
+        font-size: 5vmin;
+        line-height: 6vmin;
+        margin: 0px;
+        /*color: #f93;*/
+        font-weight: bold;
+    }
+    .my-card-detail{
+        text-align: center;
+        font-size: 1.8vmin;
+        line-height: 2.5vmin;
+        margin: 0px;
+    }
+    .my-sub-card{
+        padding: 0.5vw;
+        width: 100%;
+        background-color: #1A1A1A;
+        color: #fff;
+    }
+    .my-sub-card:hover{
+        background-color: #ff8000;
+        color: #fff;
+    }
+    .my-sub-card-active{
+        padding: 0.5vw;
+        width: 100%;
+        background-color: #ff8000;
+        color: #fff;
+    }
+
+    .my-button{
+        width: 100%;
+        height: 12vmin;
+        background-color: #333;
+        font-size: 5vmin;
+        font-weight: bold;
+        color: #fff;
+        border-style: none;
+    }
+    .my-button:hover{ background-color: #ff8000; }
+    .my-button:active{ outline-width: 0px; }
+    .my-total-text{
+        font-size: 5vmin; 
+        font-weight: bold; 
+        padding: 0px;
+        margin: 0px;
+        line-height: 12vmin;
+        color: #000;
+    }
+
+    button#hover-button span#a { display: inline; }
+    button#hover-button:hover span#a { display: none; }
+    button#hover-button span#b { display: none; }
+    button#hover-button:hover span#b { display: inline; }
+</style>
+
+<div class="container">
+    <div class="row" style="padding: 1.5vw;">
+        {% for key,value in data.items %}
+        <div class="col-xs-3 my-card">
+            <div class="row">
+                <div class="col-xs-12">
+                    <p class="thai_font my-card-head">{{key}}</p>
+                    <img class="my-card-img" src='/media/{{value.image}}' style="">
+                </div>
+            </div>
+            <div class="row my-card" style="padding: 0px;">
+                <div class="col-xs-12">
+                    {% for item in value.item %}
+                        {% if value.item|length == 1 %}     <div class="col-xs-12" style="padding: 0px;">
+                        {% elif value.item|length == 2 %}   <div class="col-xs-6" style="padding: 0px;">
+                        {% elif value.item|length == 3 %}   <div class="col-xs-4" style="padding: 0px;">
+                        {% endif %}
+
+                        {% if item.selected %}
+<!--                             <button class="my-sub-card-active uk-button" onclick="window.open('addremove/{{item.id}}','_self')">
+ -->                     {% else %}
+                        {% endif %}
+                        <!-- <button class="my-sub-card uk-button" onclick="window.open('addremove/{{item.id}}','_self')"> -->
+                        <button class="my-sub-card uk-button">
+                            <p class="thai_font my-card-title">{{item.name}}</p>
+                            <p class="thai_font my-card-detail">{{item.cost}} Bath</p>
+                        </button>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+
+    </div>
+    <div class="row" style="padding: 1.5vw;">
+        <div class="col-xs-10" style="background-color: #fff;">
+            <p class="thai_font" style="color: #000; font-size: 20px;"></p>
+        </div>
+        <div class="col-xs-2">
+<!--             <button class="my-sub-card uk-button" onclick=""></button>
+ -->        </div>
+    </div>
+</div>
+
+<!-- <button class="my-button thai_font" id="hover-button"><span id="a">{{total}} Bath</span><span id="b">BUY</span></button> -->
+
+<br><br><br>
+{% endblock %}

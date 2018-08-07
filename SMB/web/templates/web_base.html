@@ -496,9 +496,11 @@
         <div class="collapse navbar-collapse" id="bs-megadropdown-tabs">
           <ul class="nav navbar-nav">
             <li id="nav-item-1"><a href="/" class="act">Home</a></li>
-            <!-- <li id="nav-item-2"><a href="{% url 'web_product' %}">Products</a></li> -->
+            <li id="nav-item-2"><a href="{% url 'web_product' %}">Products</a></li>
+            <li id="nav-item-4"><a href="{% url 'web_order' %}">Order</a></li>
             <li id="nav-item-3"><a href="{% url 'web_mybox' %}">My box</a></li>
-            <li id="nav-item-4"><a href="{% url 'web_profile' %}">Profile</a></li>
+<!--             <li id="nav-item-4"><a href="{% url 'web_profile' %}">Profile</a></li>
+ -->            
             <li id="nav-item-5"><a href="{% url 'web_contact' %}">Contact</a></li>
             {% if user.is_staff %}
                 <li id="nav-item-5"><a href="/admin">Admin</a></li>
